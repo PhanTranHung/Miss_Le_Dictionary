@@ -47,6 +47,7 @@ function fillUI(response) {
 
 function binding() {
   bindingAudioBtn();
+  bindingCollapse();
 }
 
 function bindingAudioBtn() {
@@ -60,4 +61,15 @@ function bindingAudioBtn() {
       })
     );
   }
+}
+
+function bindingCollapse() {
+  [
+    ...document.getElementsByClassName("box_title"),
+    ...document.getElementsByClassName("heading"),
+  ].map((e) => {
+    e.addEventListener("click", (evt) => {
+      evt.target.parentElement.classList.toggle("is-active");
+    });
+  });
 }
