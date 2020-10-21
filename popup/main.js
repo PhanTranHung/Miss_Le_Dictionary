@@ -41,4 +41,23 @@ function fillUI(response) {
     default:
       console.log("Unknown response type");
   }
+
+  binding();
+}
+
+function binding() {
+  bindingAudioBtn();
+}
+
+function bindingAudioBtn() {
+  let btn_speakers = document.getElementsByClassName("audio_play_button");
+
+  for (let btn of btn_speakers) {
+    let { srcMp3, srcOgg } = btn.dataset;
+    btn.addEventListener("click", (evt) =>
+      onceSendMessage("speak", { srcMp3, srcOgg }, (respose) => {
+        console.log(respose);
+      })
+    );
+  }
 }

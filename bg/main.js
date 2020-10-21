@@ -1,4 +1,5 @@
 import { queryOxford } from "../helper/network.js";
+import { playSound } from "../helper/audio.js";
 import { events, responseTypes } from "../helper/variables.js";
 
 chrome.runtime.onInstalled.addListener(function (details) {
@@ -6,14 +7,28 @@ chrome.runtime.onInstalled.addListener(function (details) {
 });
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
-  console.log(req, sender);
   switch (req.event) {
     case events.TRANSLATE:
       translate(req.payload, sendResponse);
       break;
+    case events.SPEAK:
+      processAudio(req.payload, sendResponse);
+      break;
   }
   return true;
 });
+
+function processAudio({ srcMp3, srcOgg }, sendResponse) {
+  if (!!srcMp3 && !!srcOgg) {
+    try {
+      playSound(srcMp3, srcOgg);
+      sendResponse({ message: "Success" });
+    } catch (error) {
+      sendResponse({ error: true, message: "Error" });
+      throw error;
+    }
+  }
+}
 
 function translate(question, sendResponse) {
   queryOxford(question)

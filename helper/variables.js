@@ -6,5 +6,6 @@ export const events = {
 export const responseTypes = {
   ANSWER: "answer",
   SUGGEST: "suggest",
+  INIT: "init",
   ERROR: "error",
 };
