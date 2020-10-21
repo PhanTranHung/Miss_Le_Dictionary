@@ -3,6 +3,7 @@ import { events, responseTypes } from "../helper/variables.js";
 const textarea = document.getElementById("text");
 const btnsubmit = document.getElementById("btn-submit");
 const fieldcontent = document.getElementById("field-content");
+const detail = document.getElementById("go-to-detail");
 
 textarea.addEventListener("keypress", (e) => "Enter" === e.code && main());
 btnsubmit.addEventListener("click", main);
@@ -42,12 +43,14 @@ function fillUI(response) {
       console.log("Unknown response type");
   }
 
-  binding();
+  binding(response);
 }
 
-function binding() {
+function binding(response) {
   bindingAudioBtn();
   bindingCollapse();
+  bindingClickEvent();
+  bindingDetailButton(response);
 }
 
 function bindingAudioBtn() {
@@ -72,4 +75,20 @@ function bindingCollapse() {
       evt.target.parentElement.classList.toggle("is-active");
     });
   });
+}
+
+function bindingDetailButton(response) {
+  detail.classList.add("active");
+  detail.addEventListener("click", (evt) => createTab(response.url));
+}
+
+function bindingClickEvent() {
+  jQuery("ul.result-list li").on("click", function (evt) {
+    textarea.value = $(this).text().trim();
+    main();
+  });
+}
+
+function createTab(url, active = true, cb = undefined) {
+  chrome.tabs.create({ url, active }, cb);
 }
