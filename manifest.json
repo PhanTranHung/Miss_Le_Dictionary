@@ -25,5 +25,15 @@
       "128": "icons/icon_16.png"
     }
   },
-  "permissions": ["https://*.oxfordlearnersdictionaries.com/", "storage"]
+  "permissions": ["https://*.oxfordlearnersdictionaries.com/", "storage"],
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Ctrl+Shift+A",
+        "mac": "Ctrl+Shift+A",
+        "chromeos": "Ctrl+Shift+A",
+        "linux": "Ctrl+Shift+A"
+      }
+    }
+  }
 }
