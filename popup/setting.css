@@ -1,0 +1,11 @@
+* {
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  width: 400px;
+  font-family: "Source Sans Pro", sans-serif;
+}

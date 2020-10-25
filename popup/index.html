@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Miss Le Dictionary</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="/common/css/reset.css"
+    />
+    <link rel="stylesheet" type="text/css" media="screen" href="setting.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="top">
+        <textarea
+          autofocus
+          class="text"
+          id="text"
+          placeholder="Input here"
+        ></textarea>
+      </div>
+      <div class="actions">
+        <input
+          id="btn-submit"
+          class="button-happy"
+          type="submit"
+          value="Search"
+        />
+      </div>
+      <div class="box">
+        <fieldset class="inner-box">
+          <legend class="field-name">Oxford Dictionaries</legend>
+          <span id="go-to-detail" class="dictlick">Detail</span>
+          <div id="field-content" class="field-content"></div>
+        </fieldset>
+      </div>
+    </div>
+  </body>
+  <script src="/helper/jquery-3.5.1.js"></script>
+  <script type="module" src="main.js"></script>
+</html>

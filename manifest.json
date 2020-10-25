@@ -13,5 +13,27 @@
   "background": {
     "persistent": false,
     "page": "bg/index.html"
+  },
+  "browser_action": {
+    "default_title": "Dictionary",
+    "default_popup": "popup/index.html",
+    "default_icon": {
+      "16": "icons/icon_16.png",
+      "32": "icons/icon_16.png",
+      "48": "icons/icon_16.png",
+      "64": "icons/icon_16.png",
+      "128": "icons/icon_16.png"
+    }
+  },
+  "permissions": ["https://*.oxfordlearnersdictionaries.com/", "storage"],
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Ctrl+Shift+A",
+        "mac": "Ctrl+Shift+A",
+        "chromeos": "Ctrl+Shift+A",
+        "linux": "Ctrl+Shift+A"
+      }
+    }
   }
 }
