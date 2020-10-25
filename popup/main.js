@@ -1,4 +1,5 @@
-import { events, responseTypes } from "../helper/variables.js";
+import { events, responseTypes, storageKey } from "../helper/variables.js";
+import storage from "../helper/storage.js";
 
 const textarea = document.getElementById("text");
 const btnsubmit = document.getElementById("btn-submit");
@@ -8,6 +9,31 @@ const detail = document.getElementById("go-to-detail");
 textarea.addEventListener("keypress", (e) => "Enter" === e.code && main());
 btnsubmit.addEventListener("click", main);
 
+function loadLocalData() {
+  let data = storage.getData(storageKey.POPUP);
+  textarea.value = data.question;
+  textarea.select();
+
+  fillUI(data);
+}
+
+loadLocalData();
+
+function saveDataToLocal(data) {
+  switch (data.type) {
+    case responseTypes.ANSWER:
+    case responseTypes.SUGGEST:
+      data.type = responseTypes.STORED;
+      return storage.setData(storageKey.POPUP, data);
+
+    default:
+      console.warn(
+        "Can't save response to local storage: DATA_TYPE ",
+        data.type
+      );
+  }
+}
+
 function main() {
   let question = textarea.value.trim();
   if (question.length <= 0) {
@@ -15,6 +41,7 @@ function main() {
     textarea.focus();
   } else
     onceSendMessage(events.TRANSLATE, question, (response) => {
+      saveDataToLocal(response);
       fillUI(response);
     });
 }
@@ -34,6 +61,7 @@ function fillUI(response) {
       return (fieldcontent.innerHTML = response.dict);
 
     case responseTypes.ANSWER:
+    case responseTypes.STORED:
       fieldcontent.innerHTML = response.dict;
       break;
 

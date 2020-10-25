@@ -8,4 +8,10 @@ export const responseTypes = {
   SUGGEST: "suggest",
   INIT: "init",
   ERROR: "error",
+  STORED: "stored",
+};
+
+export const storageKey = {
+  TRANSLATE: "translate",
+  POPUP: "popup",
 };

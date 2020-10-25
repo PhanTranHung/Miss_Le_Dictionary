@@ -25,5 +25,5 @@
       "128": "icons/icon_16.png"
     }
   },
-  "permissions": ["https://*.oxfordlearnersdictionaries.com/"]
+  "permissions": ["https://*.oxfordlearnersdictionaries.com/", "storage"]
 }

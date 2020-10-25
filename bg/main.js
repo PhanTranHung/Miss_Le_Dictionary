@@ -1,9 +1,19 @@
 import { queryOxford } from "../helper/network.js";
 import { playSound } from "../helper/audio.js";
-import { events, responseTypes } from "../helper/variables.js";
+import { events, responseTypes, storageKey } from "../helper/variables.js";
+import storage from "../helper/storage.js";
 
 chrome.runtime.onInstalled.addListener(function (details) {
   console.log("Extension is installed", details);
+
+  storage.setData(storageKey.TRANSLATE, { from: "en", to: "vi" });
+  storage.setData(storageKey.POPUP, {
+    question: "hello",
+    dict:
+      "<h3>Thank you for using Miss Le Dictionary</h3><div>Press <code>Alt + A</code> to open extension</div>",
+    url: undefined,
+    type: responseTypes.INIT,
+  });
 });
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
