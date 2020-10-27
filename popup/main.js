@@ -40,7 +40,7 @@ function main() {
     textarea.value = "";
     textarea.focus();
   } else
-    onceSendMessage(events.TRANSLATE, question, (response) => {
+    onceSendMessage(events.OXFORD_TRANSLATE, question, (response) => {
       saveDataToLocal(response);
       fillUI(response);
     });

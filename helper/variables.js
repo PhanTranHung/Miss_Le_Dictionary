@@ -1,5 +1,5 @@
 export const events = {
-  TRANSLATE: "translate",
+  OXFORD_TRANSLATE: "translate",
   SPEAK: "speak",
 };
 

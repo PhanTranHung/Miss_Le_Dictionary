@@ -18,7 +18,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   switch (req.event) {
-    case events.TRANSLATE:
+    case events.OXFORD_TRANSLATE:
       translate(req.payload, sendResponse);
       break;
     case events.SPEAK:
