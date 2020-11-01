@@ -115,6 +115,10 @@ function bindingClickEvent() {
     textarea.value = $(this).text().trim();
     main();
   });
+
+  let btn = jQuery(".webtop > .phonetics > .phons_n_am > .pron-us")[0];
+
+  if (!!btn) btn.click();
 }
 
 function createTab(url, active = true, cb = undefined) {
