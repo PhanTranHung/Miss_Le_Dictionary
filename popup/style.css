@@ -488,6 +488,13 @@ table td {
   font-size: 14px;
 }
 
+html {
+  /* width */
+  /* Track */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
 html ::-webkit-scrollbar {
   width: 5px;
 }
@@ -503,4 +510,53 @@ html ::-webkit-scrollbar-thumb {
 }
 html ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+hr {
+  margin: 5px 0 0;
+  height: 1px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  background: #b9b9b9;
+  overflow: hidden;
+}
+
+.sentences {
+  position: relative;
+}
+.sentences .trans {
+  color: #24212f;
+  font-size: 15px;
+  word-break: break-word;
+}
+
+.dicts {
+  position: relative;
+}
+.dicts .dict {
+  padding-top: 5px;
+  padding-bottom: 2px;
+}
+.dicts .dict .pos {
+  font-weight: bold;
+  font-style: italic;
+  text-transform: capitalize;
+}
+.dicts .dict .terms {
+  padding-top: 3px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -2px;
+}
+.dicts .dict .terms .term {
+  width: fit-content;
+  padding: 2px 3px 1px;
+  border-radius: 5px;
+  background-color: #d4d4d4;
+  margin: 0 2px;
+}
+
+.hide {
+  display: none !important;
 }

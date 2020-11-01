@@ -25,7 +25,11 @@
       "128": "icons/icon_16.png"
     }
   },
-  "permissions": ["https://*.oxfordlearnersdictionaries.com/", "storage"],
+  "permissions": [
+    "https://*.oxfordlearnersdictionaries.com/",
+    "https://translate.googleapis.com/",
+    "storage"
+  ],
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
