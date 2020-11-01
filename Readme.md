@@ -13,6 +13,10 @@ If you want to use the newest features, please use dev branch
 
 _My English not very well, sorry about that._
 
+## Features
+
+- Translate by Oxford Dictionaries
+- Auto reader
 
 ## Installation
 
@@ -42,12 +46,10 @@ _My English not very well, sorry about that._
 
 ![screenshot](docs/imgs/first-time.png)
 
-
 ## Shortcuts
 
-| Action                        |   Shortcut
-| ----------------------------- |:-----------------------------
-| Open the Extension            | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd>
-
+| Action             | Shortcut                                      |
+| ------------------ | :-------------------------------------------- |
+| Open the Extension | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd> |
 
 _Thankyou for use it_
