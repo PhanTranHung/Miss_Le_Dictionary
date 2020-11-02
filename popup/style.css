@@ -30,30 +30,30 @@
   display: block;
 }
 .webtop .headword {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   font-weight: 600;
   display: inline-block;
   margin: 0rem 0rem 0rem 0rem;
   color: #1a3561;
 }
 .webtop .pos {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   font-style: italic;
   margin: 0rem 0rem 0rem 0.25rem;
   color: #333333;
 }
 .webtop .symbols {
-  margin: 0.5rem 0rem 0.5rem 0rem;
+  margin: 0.2rem 0rem 0.2rem 0rem;
 }
 .webtop .symbols a {
   display: inline-block;
   background-repeat: no-repeat;
-  line-height: 1.5rem;
-  min-width: 3rem;
+  line-height: 1;
+  width: fit-content;
   vertical-align: middle;
   cursor: pointer;
-  margin: 0rem 0.5rem 0rem 0rem;
+  margin: 0rem 0.2rem 0rem 0rem;
   text-decoration: none;
   color: #004aac;
 }
@@ -68,29 +68,32 @@
 .webtop .symbols a span {
   display: inline-block;
   background-repeat: no-repeat;
-  line-height: 1.5rem;
-  min-width: 3rem;
+  line-height: 1;
+  min-width: 2rem;
   vertical-align: middle;
   cursor: pointer;
 }
 .webtop .symbols a span.opal_symbol {
   display: inline-block;
   background-color: #526983;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  border-radius: 50px;
-  padding: 0px 15px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 7px;
+  padding: 0px 5px;
   color: #ffffff;
-  line-height: 1.5rem;
+  line-height: 1.05rem;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.7rem;
   -webkit-transition: background-image 100ms linear;
   -o-transition: background-image 100ms linear;
   transition: background-image 100ms linear;
 }
 .webtop .symbols a span.opal_symbol:hover {
   background-color: #3f5064;
+}
+.webtop .phonetics {
+  font-size: 1rem;
 }
 .webtop .phonetics div {
   margin-bottom: 2px;
@@ -128,9 +131,9 @@
   -o-transition: background-image 100ms linear;
   transition: background-image 100ms linear;
 }
-.webtop .phonetics div .phon {
+.webtop .phonetics div .verb_form .phon {
   font-family: "Lucida Sans Unicode", "Lucida Grande";
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 400;
   color: #333333;
 }
@@ -139,11 +142,15 @@
 }
 .webtop .variants {
   font-style: italic;
-  color: #6f6f6f;
-  margin: 0rem 0rem 0.5rem 0rem;
 }
 .webtop .inflections {
+  position: relative;
+}
+.webtop .variants,
+.webtop .inflections {
   color: #6f6f6f;
+  margin: 0;
+  font-size: 0.9rem;
 }
 .webtop .variants .eb,
 .webtop .variants .v-g,
@@ -171,16 +178,21 @@
 .webtop .grammar {
   color: #6f6f6f;
   font-weight: 400;
+  font-size: 0.8rem;
 }
-.webtop .labels {
+.webtop > .labels {
   color: #6f6f6f;
   font-style: italic;
   font-weight: 400;
+  font-size: 0.9rem;
 }
 .webtop .collapse {
   background-color: #faded7;
   border-left: 0.1875rem solid #f08b6e;
-  margin: 0.5rem 0rem 0.5rem 0rem;
+  border-right: 1px solid #f08b6e;
+  border-top: 1px solid #f08b6e;
+  border-bottom: 1px solid #f08b6e;
+  margin: 0.1rem 0rem 0rem 0rem;
   display: inline-block;
   width: 100%;
 }
@@ -191,8 +203,8 @@
 }
 .webtop .collapse .unbox .box_title {
   display: block;
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  font-size: 1.125rem;
+  padding: 0.2rem 0.3rem 0.2rem 0.4rem;
+  font-size: 0.95rem;
   cursor: pointer;
   -webkit-transition: background-color 100ms linear;
   -o-transition: background-color 100ms linear;
@@ -222,22 +234,36 @@
   background-position: center top;
 }
 .webtop .collapse .is-active .body {
-  padding: 1rem;
+  padding: 0.1rem 0.5rem;
   background-color: #fdf3f0;
   display: block;
 }
 .webtop .collapse .is-active table {
   display: inherit;
 }
+.webtop .un {
+  background-color: #f8e6db;
+  padding: 5px;
+  display: block;
+  border: 1px solid #ffc7b6;
+  margin-bottom: 2px;
+  font-size: 0.8rem;
+}
+.webtop .un .eb {
+  font-weight: 600;
+  font-style: normal;
+  color: #1a3561;
+}
 
 .verb_form {
   font-weight: 600;
   color: #1a3561;
   display: block;
+  font-size: 0.9rem;
 }
 
 tr.verb_form {
-  margin: 0.5rem 0rem;
+  margin: 0.1rem 0rem;
 }
 
 table td {
@@ -251,6 +277,20 @@ table td {
   color: #333333;
 }
 
+.ox5ksym_a1,
+.ox5ksym_a2,
+.ox5ksym_b1,
+.ox5ksym_b2,
+.ox5ksym_c1,
+.ox5ksym_c2,
+.ox3ksym_a1,
+.ox3ksym_a2,
+.ox3ksym_b1,
+.ox3ksym_b2,
+.ox3ksym_c1,
+.ox3ksym_c2 {
+  background-size: contain;
+}
 .ox5ksym_a1:hover,
 .ox5ksym_a2:hover,
 .ox5ksym_b1:hover,
@@ -438,8 +478,9 @@ table td {
 }
 .box .inner-box .field-name {
   padding: 0 5px 5px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
+  color: #0013f1;
 }
 .box .inner-box .dictlick {
   display: none;
@@ -527,7 +568,7 @@ hr {
 }
 .sentences .trans {
   color: #24212f;
-  font-size: 15px;
+  font-size: 0.9rem;
   word-break: break-word;
 }
 
@@ -542,19 +583,22 @@ hr {
   font-weight: bold;
   font-style: italic;
   text-transform: capitalize;
+  font-size: 0.75rem;
 }
 .dicts .dict .terms {
   padding-top: 3px;
   display: flex;
   flex-wrap: wrap;
   margin: 0 -2px;
+  font-size: 0.75rem;
 }
 .dicts .dict .terms .term {
   width: fit-content;
   padding: 2px 3px 1px;
   border-radius: 5px;
   background-color: #d4d4d4;
-  margin: 0 2px;
+  margin: 1px 2px;
+  font-size: inherit;
 }
 
 .hide {
