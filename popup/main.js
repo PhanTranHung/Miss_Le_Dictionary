@@ -16,7 +16,7 @@ function loadLocalData() {
   textarea.value = data.question;
   textarea.select();
 
-  fillUI(data);
+  fillOxfordBox(data);
 }
 
 loadLocalData();
@@ -42,10 +42,10 @@ function main() {
     textarea.focus();
   } else {
     onceSendMessage(events.GOOGLE_TRANSLATE, question, (response) => {
-      fillUI(response);
+      fillGoogleBox(response);
     });
     onceSendMessage(events.OXFORD_TRANSLATE, question, (response) => {
-      fillUI(response);
+      fillOxfordBox(response);
       saveDataToLocal(response);
     });
   }
@@ -55,9 +55,28 @@ function onceSendMessage(event, payload, cb) {
   chrome.runtime.sendMessage({ event, payload }, cb);
 }
 
-function fillUI(response) {
+function fillGoogleBox(response) {
   if (!!response.error) throw response.err;
-  console.log(response.type);
+  switch (response.type) {
+    case responseTypes.INIT:
+      return;
+
+    case responseTypes.STORED:
+      return;
+
+    case responseTypes.ANSWER_G:
+      return renderGoogleBoxContent(response.tran);
+
+    case responseTypes.ERROR_G:
+      console.log("An error was occur", response.message);
+
+    default:
+      console.log("Unknown response type");
+  }
+}
+
+function fillOxfordBox(response) {
+  if (!!response.error) throw response.err;
   switch (response.type) {
     case responseTypes.INIT:
       return (oxfordBox.innerHTML = response.dict);
@@ -77,12 +96,7 @@ function fillUI(response) {
       oxfordBox.innerHTML = response.dict;
       break;
 
-    case responseTypes.ANSWER_G:
-      renderGoogleBoxContent(response.tran);
-      break;
-
     case responseTypes.ERROR_O:
-    case responseTypes.ERROR_G:
       console.log("An error was occur", response.message);
 
     default:
