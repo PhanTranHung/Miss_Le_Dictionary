@@ -8,13 +8,10 @@ export const responseTypes = {
   INIT: "init",
   STORED: "stored",
 
-  ANSWER_O: "ox-answer",
-  SUGGEST_O: "ox-suggest",
-  NO_MATCH_O: "ox-no-match",
-  ERROR_O: "ox-error",
-
-  ANSWER_G: "gg-answer",
-  ERROR_G: "gg-error",
+  ANSWER: "answer",
+  SUGGEST: "suggest",
+  NO_MATCH: "no-match",
+  ERROR: "error",
 };
 
 export const storageKey = {

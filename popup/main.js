@@ -23,7 +23,7 @@ loadLocalData();
 
 function saveDataToLocal(data) {
   switch (data.type) {
-    case responseTypes.ANSWER_O:
+    case responseTypes.ANSWER:
       data.type = responseTypes.STORED;
       return storage.setData(storageKey.POPUP, data);
 
@@ -64,14 +64,14 @@ function fillGoogleBox(response) {
     case responseTypes.STORED:
       return;
 
-    case responseTypes.ANSWER_G:
+    case responseTypes.ANSWER:
       return renderGoogleBoxContent(response.tran);
 
-    case responseTypes.ERROR_G:
+    case responseTypes.ERROR:
       console.log("An error was occur", response.message);
-
     default:
-      console.log("Unknown response type");
+      console.log("Unknown response type: ", response.type);
+      googleBox.innerHTML = "An error was occur";
   }
 }
 
@@ -81,26 +81,26 @@ function fillOxfordBox(response) {
     case responseTypes.INIT:
       return (oxfordBox.innerHTML = response.dict);
 
-    case responseTypes.SUGGEST_O:
+    case responseTypes.SUGGEST:
       let title = `<div class="result-header">“${response.question}” not found</div><div class="didyoumean">Did you mean:</div>`;
       oxfordBox.innerHTML = title + response.dict;
       break;
 
-    case responseTypes.NO_MATCH_O:
+    case responseTypes.NO_MATCH:
       oxfordBox.innerHTML = "";
       return toggleVisible(oxfordContainer, "hide");
 
-    case responseTypes.ANSWER_O:
+    case responseTypes.ANSWER:
       toggleVisible(oxfordContainer, "show");
     case responseTypes.STORED:
       oxfordBox.innerHTML = response.dict;
       break;
 
-    case responseTypes.ERROR_O:
+    case responseTypes.ERROR:
       console.log("An error was occur", response.message);
-
     default:
-      console.log("Unknown response type");
+      console.log("Unknown response type: ", response.type);
+      oxfordBox.innerHTML = "An error was occur";
   }
 
   binding(response);
