@@ -11,6 +11,23 @@ const oxfordContainer = document.getElementById("oxfordContainer");
 textarea.addEventListener("keypress", (e) => "Enter" === e.code && main());
 btnsubmit.addEventListener("click", main);
 
+document.body.addEventListener("keypress", (e) => {
+  if (
+    e.shiftKey &&
+    e.code === "KeyA" &&
+    !e.ctrlKey &&
+    !e.altKey &&
+    document.activeElement !== textarea
+  ) {
+    e.preventDefault();
+    textarea.focus();
+  }
+});
+
+chrome.commands.onCommand.addListener(function (command) {
+  if (command === "focus-textarea") textarea.focus();
+});
+
 function loadLocalData() {
   let data = storage.getData(storageKey.POPUP);
   textarea.value = data.question;

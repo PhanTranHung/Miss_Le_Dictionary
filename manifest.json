@@ -38,6 +38,16 @@
         "chromeos": "Ctrl+Shift+A",
         "linux": "Ctrl+Shift+A"
       }
+    },
+    "focus-textarea": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "windows": "Ctrl+Shift+S",
+        "mac": "Ctrl+Shift+S",
+        "chromeos": "Ctrl+Shift+S",
+        "linux": "Ctrl+Shift+S"
+      },
+      "description": "Focus Textbox"
     }
   }
 }
