@@ -11,23 +11,25 @@ function fetchUrl(
     var xhr = new XMLHttpRequest();
 
     xhr.addEventListener("load", (evt) => {
-      console.log("The transfer is complete.");
+      // console.log("The transfer is complete.");
       reslove({
         data: xhr.responseText,
         url: xhr.responseURL,
       });
     });
     xhr.addEventListener("error", (evt) =>
-      transferError(evt, "An error occurred while request the answer.")
+      transferError(evt, "error", "An error occurred while request the answer.")
     );
     xhr.addEventListener("abort", (evt) =>
-      transferError(evt, "The transfer has been canceled by the user.")
+      transferError(evt, "abort", "The transfer has been canceled by the user.")
     );
-    xhr.addEventListener("timeout", (evt) => transferError(evt, "Time out!!!"));
+    xhr.addEventListener("timeout", (evt) =>
+      transferError(evt, "timeout", "Time out!!!")
+    );
 
-    function transferError(evt, message) {
+    function transferError(evt, type, message) {
       console.log(message);
-      reject({ message, evt });
+      reject({ message, type, evt });
     }
 
     xhr.timeout = timeout;

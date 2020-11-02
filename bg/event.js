@@ -29,12 +29,14 @@ function processAudio({ srcMp3, srcOgg }, sendResponse) {
   }
 }
 
+function handleError(sendResponse, error, message = "Error undefined") {
+  console.error(error);
+  return sendResponse({ type: error.type, message: error.messase || message });
+}
+
 function oxfordTranslate(question, sendResponse) {
   queryOxford(question)
-    .catch((err) => {
-      sendResponse(err.type);
-      throw err;
-    })
+    .catch((err) => handleError(sendResponse, err))
     .then(({ data: html, url }) => {
       let root = document.createElement("html");
       root.innerHTML = html;
@@ -62,18 +64,12 @@ function oxfordTranslate(question, sendResponse) {
       }
       sendResponse(response);
     })
-    .catch((err) => {
-      sendResponse(err.type);
-      throw err;
-    });
+    .catch((err) => handleError(sendResponse, err));
 }
 
 function googleTranslate(question, sendResponse) {
   queryGoogle(question)
-    .catch((err) => {
-      sendResponse(err.type);
-      throw err;
-    })
+    .catch((err) => handleError(sendResponse, err))
     .then(({ data: json, url }) => {
       let response = { question, url };
 
@@ -86,8 +82,5 @@ function googleTranslate(question, sendResponse) {
       }
       sendResponse(response);
     })
-    .catch((err) => {
-      sendResponse(err.type);
-      throw err;
-    });
+    .catch((err) => handleError(sendResponse, err));
 }

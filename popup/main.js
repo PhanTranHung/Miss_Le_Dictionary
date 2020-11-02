@@ -73,7 +73,7 @@ function onceSendMessage(event, payload, cb) {
 }
 
 function fillGoogleBox(response) {
-  if (!!response.error) throw response.err;
+  if (!!response.error) console.error(response);
   switch (response.type) {
     case responseTypes.INIT:
       return;
@@ -88,12 +88,12 @@ function fillGoogleBox(response) {
       console.log("An error was occur", response.message);
     default:
       console.log("Unknown response type: ", response.type);
-      googleBox.innerHTML = "An error was occur";
+      googleBox.innerHTML = "Error undefined";
   }
 }
 
 function fillOxfordBox(response) {
-  if (!!response.error) throw response.err;
+  if (!!response.error) console.error(response);
   switch (response.type) {
     case responseTypes.INIT:
       return (oxfordBox.innerHTML = response.dict);
@@ -117,7 +117,7 @@ function fillOxfordBox(response) {
       console.log("An error was occur", response.message);
     default:
       console.log("Unknown response type: ", response.type);
-      oxfordBox.innerHTML = "An error was occur";
+      oxfordBox.innerHTML = "Error undefined";
   }
 
   binding(response);

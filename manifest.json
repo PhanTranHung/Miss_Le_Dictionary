@@ -33,6 +33,7 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
+        "default": "Ctrl+Shift+A",
         "windows": "Ctrl+Shift+A",
         "mac": "Ctrl+Shift+A",
         "chromeos": "Ctrl+Shift+A",
