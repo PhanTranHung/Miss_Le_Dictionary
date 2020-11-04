@@ -73,12 +73,12 @@ function googleTranslate(question, sendResponse) {
     .then(({ data: json, url }) => {
       let response = { question, url };
 
-      if (!!json) {
+      if (!!json && json.startsWith("{")) {
         response.tran = json;
         response.type = responseTypes.ANSWER;
       } else {
         response.type = responseTypes.ERROR;
-        response.message = "Data null: Google translate";
+        response.message = "Google translate: the data is not JSON or null";
       }
       sendResponse(response);
     })

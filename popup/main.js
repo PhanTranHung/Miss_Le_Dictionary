@@ -58,18 +58,27 @@ function main() {
     textarea.value = "";
     textarea.focus();
   } else {
-    onceSendMessage(events.GOOGLE_TRANSLATE, question, (response) => {
-      fillGoogleBox(response);
-    });
-    onceSendMessage(events.OXFORD_TRANSLATE, question, (response) => {
-      fillOxfordBox(response);
-      saveDataToLocal(response);
-    });
+    const promises = [
+      [events.GOOGLE_TRANSLATE, fillGoogleBox],
+      [events.OXFORD_TRANSLATE, fillOxfordBox],
+    ].map((e) =>
+      onceSendMessage(e[0], question).then((response) => {
+        e[1](response);
+        return response;
+      })
+    );
   }
 }
 
-function onceSendMessage(event, payload, cb) {
-  chrome.runtime.sendMessage({ event, payload }, cb);
+async function onceSendMessage(event, payload) {
+  return new Promise((res, rej) => {
+    try {
+      chrome.runtime.sendMessage({ event, payload }, res);
+    } catch (e) {
+      console.error(e);
+      rej(e);
+    }
+  });
 }
 
 function fillGoogleBox(response) {
@@ -108,7 +117,9 @@ function fillOxfordBox(response) {
       return toggleVisible(oxfordContainer, "hide");
 
     case responseTypes.ANSWER:
+      saveDataToLocal(response);
       toggleVisible(oxfordContainer, "show");
+
     case responseTypes.STORED:
       oxfordBox.innerHTML = response.dict;
       break;
@@ -178,21 +189,23 @@ function renderGoogleBoxContent(data) {
   console.log(data);
   const jdata = JSON.parse(data);
   let content = `<div class="sentences">
-                      <div class="trans">${jdata.sentences
-                        .map((val) => (val.trans ? val.trans : ""))
-                        .join("")}</div>
-                    </div>`;
+                  <div class="trans">
+                    ${jdata.sentences
+                      .map((val) => (val.trans ? val.trans : ""))
+                      .join("")}  
+                  </div>
+                </div>`;
   if (jdata.dict) {
     const dict = jdata.dict
       .map(
         (val) => `<div class="dict">
-                  <div class="pos">${val.pos}</div>
-                  <div class="terms">
-                    ${val.terms
-                      .map((term) => `<span class="term">${term}</span>`)
-                      .join("")}
-                  </div>
-                </div>`
+                    <div class="pos">${val.pos}</div>
+                    <div class="terms">
+                      ${val.terms
+                        .map((term) => `<span class="term">${term}</span>`)
+                        .join("")}
+                    </div>
+                  </div>`
       )
       .join("");
     content += `<hr />

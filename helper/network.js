@@ -18,18 +18,16 @@ function fetchUrl(
       });
     });
     xhr.addEventListener("error", (evt) =>
-      transferError(evt, "error", "An error occurred while request the answer.")
+      transferError(evt, "An error occurred while request the answer.")
     );
     xhr.addEventListener("abort", (evt) =>
-      transferError(evt, "abort", "The transfer has been canceled by the user.")
+      transferError(evt, "The transfer has been canceled by the user.")
     );
-    xhr.addEventListener("timeout", (evt) =>
-      transferError(evt, "timeout", "Time out!!!")
-    );
+    xhr.addEventListener("timeout", (evt) => transferError(evt, "Time out!!!"));
 
-    function transferError(evt, type, message) {
+    function transferError(evt, message) {
       console.log(message);
-      reject({ message, type, evt });
+      reject({ message, type: "error", evt });
     }
 
     xhr.timeout = timeout;
