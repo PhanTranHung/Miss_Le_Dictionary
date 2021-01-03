@@ -1,65 +1,58 @@
 {
-  "name": "Miss Le Dictionaries",
-  "version": "1.0.0",
-  "description": "Find new vocabularies and translate faster",
-  "manifest_version": 2,
-  "icons": {
-    "16": "icons/icon_16.png",
-    "32": "icons/icon_16.png",
-    "48": "icons/icon_16.png",
-    "64": "icons/icon_16.png",
-    "128": "icons/icon_16.png"
-  },
-  "background": {
-    "persistent": false,
-    "page": "bg/index.html"
-  },
-  "browser_action": {
-    "default_title": "Dictionary",
-    "default_popup": "popup/index.html",
-    "default_icon": {
-      "16": "icons/icon_16.png",
-      "32": "icons/icon_16.png",
-      "48": "icons/icon_16.png",
-      "64": "icons/icon_16.png",
-      "128": "icons/icon_16.png"
-    }
-  },
-  "permissions": [
-    "https://*.oxfordlearnersdictionaries.com/",
-    "https://translate.googleapis.com/",
-    "storage"
-  ],
-  "commands": {
-    "_execute_browser_action": {
-      "suggested_key": {
-        "default": "Ctrl + Shift + A",
-        "windows": "Ctrl + Shift + A",
-        "mac": "Ctrl + Shift + A",
-        "chromeos": "Ctrl + Shift + A",
-        "linux": "Ctrl + Shift + A"
-      }
-    },
-    "focus-textarea": {
-      "suggested_key": {
-        "default": "Ctrl + Shift + S",
-        "windows": "Ctrl + Shift + S",
-        "mac": "Ctrl + Shift + S",
-        "chromeos": "Ctrl + Shift + S",
-        "linux": "Ctrl + Shift + S"
-      },
-      "description": "Focus Textbox"
-    }
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "css": ["bubble/assistant.css"],
-      "js": ["bubble/assistant.js"]
-    }
-  ],
-  "web_accessible_resources": [
-    "helper/variables.js",
-    "common/imgs/sunny-light.svg"
-  ]
+	"name": "Miss Le Dictionaries",
+	"version": "1.0.0",
+	"description": "Find new vocabularies and translate faster",
+	"manifest_version": 2,
+	"icons": {
+		"16": "icons/icon_16.png",
+		"32": "icons/icon_16.png",
+		"48": "icons/icon_16.png",
+		"64": "icons/icon_16.png",
+		"128": "icons/icon_16.png"
+	},
+	"background": {
+		"persistent": false,
+		"page": "bg/index.html"
+	},
+	"browser_action": {
+		"default_title": "Dictionary",
+		"default_popup": "popup/index.html",
+		"default_icon": {
+			"16": "icons/icon_16.png",
+			"32": "icons/icon_16.png",
+			"48": "icons/icon_16.png",
+			"64": "icons/icon_16.png",
+			"128": "icons/icon_16.png"
+		}
+	},
+	"permissions": ["https://*.oxfordlearnersdictionaries.com/", "https://translate.googleapis.com/", "storage"],
+	"commands": {
+		"_execute_browser_action": {
+			"suggested_key": {
+				"default": "Ctrl + Shift + A",
+				"windows": "Ctrl + Shift + A",
+				"mac": "Ctrl + Shift + A",
+				"chromeos": "Ctrl + Shift + A",
+				"linux": "Ctrl + Shift + A"
+			}
+		},
+		"focus-textarea": {
+			"suggested_key": {
+				"default": "Ctrl + Shift + S",
+				"windows": "Ctrl + Shift + S",
+				"mac": "Ctrl + Shift + S",
+				"chromeos": "Ctrl + Shift + S",
+				"linux": "Ctrl + Shift + S"
+			},
+			"description": "Focus Textbox"
+		}
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"css": ["bubble/assistant.css"],
+			"js": ["bubble/assistant.js"]
+		}
+	],
+	"web_accessible_resources": ["helper/variables.js", "common/imgs/sunny-light.svg"]
 }
