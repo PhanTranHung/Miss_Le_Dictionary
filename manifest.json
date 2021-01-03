@@ -33,22 +33,33 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+A",
-        "windows": "Ctrl+Shift+A",
-        "mac": "Ctrl+Shift+A",
-        "chromeos": "Ctrl+Shift+A",
-        "linux": "Ctrl+Shift+A"
+        "default": "Ctrl + Shift + A",
+        "windows": "Ctrl + Shift + A",
+        "mac": "Ctrl + Shift + A",
+        "chromeos": "Ctrl + Shift + A",
+        "linux": "Ctrl + Shift + A"
       }
     },
     "focus-textarea": {
       "suggested_key": {
-        "default": "Ctrl+Shift+S",
-        "windows": "Ctrl+Shift+S",
-        "mac": "Ctrl+Shift+S",
-        "chromeos": "Ctrl+Shift+S",
-        "linux": "Ctrl+Shift+S"
+        "default": "Ctrl + Shift + S",
+        "windows": "Ctrl + Shift + S",
+        "mac": "Ctrl + Shift + S",
+        "chromeos": "Ctrl + Shift + S",
+        "linux": "Ctrl + Shift + S"
       },
       "description": "Focus Textbox"
     }
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["bubble/assistant.css"],
+      "js": ["bubble/assistant.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "helper/variables.js",
+    "common/imgs/sunny-light.svg"
+  ]
 }
