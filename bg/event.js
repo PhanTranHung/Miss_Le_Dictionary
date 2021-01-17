@@ -38,26 +38,19 @@ function oxfordTranslate(question, sendResponse) {
 	queryOxford(question)
 		.catch((err) => handleError(sendResponse, err))
 		.then(({ data: html, url }) => {
-			let root = document.createElement("html");
-			root.innerHTML = html;
-
-			let response = { question, url };
+			let response = { question, url, dict: html };
 
 			url = new URL(url);
-
 			if (url.pathname.startsWith("/definition")) {
-				response.dict = root.getElementsByClassName("webtop")[0].outerHTML;
-				response.type = responseTypes.ANSWER;
+				response.type = responseTypes.DEFINITION;
 			} else if (url.pathname.startsWith("/spellcheck")) {
 				try {
-					response.dict = root.getElementsByClassName("result-list")[0].outerHTML;
 					response.type = responseTypes.SUGGEST;
 				} catch (error) {
-					response.dict = "";
 					response.type = responseTypes.NO_MATCH;
 				}
 			} else {
-				response.type = responseTypes.ERROR;
+				response.type = responseTypes.URL_UNDEFINED;
 				response.message = "URL undefined";
 			}
 			sendResponse(response);

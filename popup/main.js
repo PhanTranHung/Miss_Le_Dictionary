@@ -34,10 +34,8 @@ loadLocalData();
 
 function saveDataToLocal(data) {
 	switch (data.type) {
-		case responseTypes.ANSWER:
-			data.type = responseTypes.STORED;
-			return storage.setData(storageKey.POPUP, data);
-
+		case responseTypes.DEFINITION:
+			return storage.setData(storageKey.POPUP, { ...data, type: responseTypes.STORED });
 		default:
 			console.log("Can't save response to local storage: DATA_TYPE ", data.type);
 	}
@@ -94,29 +92,54 @@ function fillGoogleBox(response) {
 
 function fillOxfordBox(response) {
 	if (!!response.error) console.error(response);
+
+	let root;
+
+	const getOuterHTMLByQuery = (query) => {
+		if (!root) {
+			root = document.createElement("html");
+			root.innerHTML = response.dict;
+		}
+
+		return root.querySelector(query).outerHTML;
+	};
+
 	switch (response.type) {
 		case responseTypes.INIT:
 			return (oxfordBox.innerHTML = response.dict);
 
 		case responseTypes.SUGGEST:
-			let title = `<div class="result-header">“${response.question}” not found</div><div class="didyoumean">Did you mean:</div>`;
-			oxfordBox.innerHTML = title + response.dict;
+			const suggestHTML = getOuterHTMLByQuery(".result-list");
+			const title = `<div class="result-header">“${response.question}” not found</div><div class="didyoumean">Did you mean:</div>`;
+			oxfordBox.innerHTML = title + suggestHTML;
 			break;
 
 		case responseTypes.NO_MATCH:
 			oxfordBox.innerHTML = "";
 			return toggleVisible(oxfordContainer, "hide");
 
-		case responseTypes.ANSWER:
-			saveDataToLocal(response);
+		case responseTypes.DEFINITION:
+			const pronunciationHTMl = getOuterHTMLByQuery(".webtop");
+			const definitionHTML = getOuterHTMLByQuery(".entry[htag='section'] > .senses_multiple");
+
+			const boxContentHTML = pronunciationHTMl + definitionHTML;
+
+			saveDataToLocal({ ...response, dict: boxContentHTML });
+			oxfordBox.innerHTML = boxContentHTML;
 			toggleVisible(oxfordContainer, "show");
+			break;
 
 		case responseTypes.STORED:
 			oxfordBox.innerHTML = response.dict;
 			break;
 
+		case responseTypes.URL_UNDEFINED:
+			oxfordBox.innerHTML = "No definition";
+			break;
+
 		case responseTypes.ERROR:
 			console.log("An error was occur", response.message);
+
 		default:
 			console.log("Unknown response type: ", response.type);
 			oxfordBox.innerHTML = "Error undefined";
@@ -202,6 +225,6 @@ function renderGoogleBoxContent(data) {
 
 function toggleVisible(ele, type = "toggle") {
 	if (type === "toggle") ele.classList.toggle("hide");
-	else if (type === "hide") ele.classList.add("hide");
-	else if (type === "show") ele.classList.remove("hide");
+	if (type === "hide") ele.classList.add("hide");
+	if (type === "show") ele.classList.remove("hide");
 }

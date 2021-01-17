@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .selection {
   position: relative;
   display: flex;
@@ -92,50 +93,6 @@
 .webtop .symbols a span.opal_symbol:hover {
   background-color: #3f5064;
 }
-.webtop .phonetics {
-  font-size: 1rem;
-}
-.webtop .phonetics div div {
-  display: inline-block;
-  height: 1.75rem;
-  width: 1.75rem;
-  background-repeat: no-repeat;
-  background-position: left top !important;
-  background-size: 100%;
-  vertical-align: middle;
-  font-size: 14px;
-}
-.webtop .phonetics div .pron-uk,
-.webtop .phonetics div .pron-uk.icon-audio {
-  background-image: url(/common/imgs/audio_bre_initial.svg);
-}
-.webtop .phonetics div .pron-uk:hover,
-.webtop .phonetics div .pron-uk.icon-audio:hover {
-  background-image: url(/common/imgs/audio_bre_playing.svg);
-  -webkit-transition: background-image 100ms linear;
-  -o-transition: background-image 100ms linear;
-  transition: background-image 100ms linear;
-}
-.webtop .phonetics div .pron-us,
-.webtop .phonetics div .pron-us.icon-audio {
-  background-image: url(/common/imgs/audio_name_initial.svg);
-}
-.webtop .phonetics div .pron-us:hover,
-.webtop .phonetics div .pron-us.icon-audio:hover {
-  background-image: url(/common/imgs/audio_name_playing.svg);
-  -webkit-transition: background-image 100ms linear;
-  -o-transition: background-image 100ms linear;
-  transition: background-image 100ms linear;
-}
-.webtop .phonetics div .verb_form .phon {
-  font-family: "Lucida Sans Unicode", "Lucida Grande";
-  font-size: 0.85rem;
-  font-weight: 400;
-  color: #333333;
-}
-.webtop .phonetics div .sep {
-  margin: 0rem;
-}
 .webtop .variants {
   font-style: italic;
 }
@@ -171,71 +128,11 @@
 .webtop .jumplinks {
   display: none;
 }
-.webtop .grammar {
-  color: #6f6f6f;
-  font-weight: 400;
-  font-size: 0.8rem;
-}
 .webtop > .labels {
   color: #6f6f6f;
   font-style: italic;
   font-weight: 400;
   font-size: 0.9rem;
-}
-.webtop .collapse {
-  background-color: #faded7;
-  border-left: 0.1875rem solid #f08b6e;
-  border-right: 1px solid #f08b6e;
-  border-top: 1px solid #f08b6e;
-  border-bottom: 1px solid #f08b6e;
-  margin: 0.1rem 0rem 0rem 0rem;
-  display: inline-block;
-  width: 100%;
-}
-.webtop .collapse .unbox {
-  -webkit-transition: all 2s;
-  -o-transition: all 2s;
-  transition: all 2s;
-}
-.webtop .collapse .unbox .box_title {
-  display: block;
-  padding: 0.2rem 0.3rem 0.2rem 0.4rem;
-  font-size: 0.95rem;
-  cursor: pointer;
-  -webkit-transition: background-color 100ms linear;
-  -o-transition: background-color 100ms linear;
-  transition: background-color 100ms linear;
-}
-.webtop .collapse .unbox .box_title:hover {
-  background-color: #faded7;
-}
-.webtop .collapse .unbox .box_title::before {
-  background-position: center top;
-  background-position: center bottom;
-  width: 14px;
-  height: 14px;
-  background-image: url(/common/imgs/icon-plus-minus-orange.png);
-  background-size: 100% auto;
-  content: "";
-  display: inline-block;
-  margin-right: 12px;
-  position: relative;
-  top: 1px;
-}
-.webtop .collapse .unbox .body,
-.webtop .collapse .unbox table {
-  display: none;
-}
-.webtop .collapse .is-active .box_title {
-  background-position: center top;
-}
-.webtop .collapse .is-active .body {
-  padding: 0.1rem 0.5rem;
-  background-color: #fdf3f0;
-  display: block;
-}
-.webtop .collapse .is-active table {
-  display: inherit;
 }
 .webtop .un {
   background-color: #f8e6db;
@@ -249,6 +146,57 @@
   font-weight: 600;
   font-style: normal;
   color: #1a3561;
+}
+
+.phonetics {
+  font-size: 1rem;
+}
+.phonetics div div {
+  display: inline-block;
+  height: 1.75rem;
+  width: 1.75rem;
+  background-repeat: no-repeat;
+  background-position: left top !important;
+  background-size: 100%;
+  vertical-align: middle;
+  font-size: 14px;
+}
+.phonetics div .pron-uk,
+.phonetics div .pron-uk.icon-audio {
+  background-image: url(/common/imgs/audio_bre_initial.svg);
+}
+.phonetics div .pron-uk:hover,
+.phonetics div .pron-uk.icon-audio:hover {
+  background-image: url(/common/imgs/audio_bre_playing.svg);
+  -webkit-transition: background-image 100ms linear;
+  -o-transition: background-image 100ms linear;
+  transition: background-image 100ms linear;
+}
+.phonetics div .pron-us,
+.phonetics div .pron-us.icon-audio {
+  background-image: url(/common/imgs/audio_name_initial.svg);
+}
+.phonetics div .pron-us:hover,
+.phonetics div .pron-us.icon-audio:hover {
+  background-image: url(/common/imgs/audio_name_playing.svg);
+  -webkit-transition: background-image 100ms linear;
+  -o-transition: background-image 100ms linear;
+  transition: background-image 100ms linear;
+}
+.phonetics div .verb_form .phon {
+  font-family: "Lucida Sans Unicode", "Lucida Grande";
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #333333;
+}
+.phonetics div .sep {
+  margin: 0rem;
+}
+
+.grammar {
+  color: #6f6f6f;
+  font-weight: 400;
+  font-size: 0.8rem;
 }
 
 .verb_form {
@@ -599,4 +547,210 @@ hr {
 
 .hide {
   display: none !important;
+}
+
+.collapse {
+  background-color: #faded7;
+  border-left: 0.1875rem solid #f08b6e;
+  border-right: 1px solid #f08b6e;
+  border-top: 1px solid #f08b6e;
+  border-bottom: 1px solid #f08b6e;
+  margin: 0.1rem 0rem 0rem 0rem;
+  display: inline-block;
+  width: 100%;
+}
+.collapse .unbox {
+  -webkit-transition: all 2s;
+  -o-transition: all 2s;
+  transition: all 2s;
+}
+.collapse .unbox[unbox=langbank] .body ul.bullet, .collapse .unbox[unbox=homophone] .body ul.bullet {
+  list-style: none;
+  margin-left: 0px;
+  padding-left: 0;
+}
+.collapse .unbox[unbox=langbank] .body ul.bullet ul.examples, .collapse .unbox[unbox=homophone] .body ul.bullet ul.examples {
+  list-style: circle;
+}
+.collapse .unbox[unbox=snippet] .body .unbox {
+  font-weight: 600;
+  border-bottom: none;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+}
+.collapse .unbox[unbox=snippet] .body ul.collocs_list {
+  list-style-type: none;
+  padding-left: 0rem;
+  margin: 0rem 0rem 0rem 0rem;
+}
+.collapse .unbox .box_title {
+  display: block;
+  padding: 0.2rem 0.3rem 0.2rem 0.4rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  -webkit-transition: background-color 100ms linear;
+  -o-transition: background-color 100ms linear;
+  transition: background-color 100ms linear;
+}
+.collapse .unbox .box_title:hover {
+  background-color: #faded7;
+}
+.collapse .unbox .box_title::before {
+  background-position: center bottom;
+  width: 14px;
+  height: 14px;
+  background-image: url(/common/imgs/icon-plus-minus-orange.png);
+  background-size: 100% auto;
+  content: "";
+  display: inline-block;
+  margin-right: 12px;
+  position: relative;
+  top: 1px;
+}
+.collapse .unbox .body,
+.collapse .unbox > ul.examples,
+.collapse .unbox table {
+  display: none;
+}
+.collapse .unbox .body .unbox {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-bottom: 1px solid #f08b6e;
+  padding-left: 8px;
+  margin-bottom: 9px;
+}
+.collapse .unbox .body .unbox:first-of-type {
+  font-weight: 600;
+  border-bottom: none;
+  margin-top: 0rem;
+  margin-bottom: 3px;
+}
+.collapse .is-active .box_title::before {
+  background-position: center top;
+}
+.collapse .is-active .body {
+  padding: 0.1rem 0;
+  background-color: #fdf3f0;
+  display: block;
+}
+.collapse .is-active ul.examples {
+  background-color: #fdf3f0;
+  display: block !important;
+}
+.collapse .is-active table {
+  display: inherit;
+}
+
+span[unbox=wordfinder] ul.bullet li.li {
+  display: inline-block;
+}
+span[unbox=wordfinder] ul.bullet li.li:after {
+  content: "•";
+  color: #6f6f6f;
+  padding: 0rem 0.25rem 0rem 0.25rem;
+}
+
+.topic-g {
+  display: none;
+}
+
+.collocs_list li {
+  margin-left: 0.5rem;
+  margin-bottom: 4px;
+  display: inline-block;
+}
+.collocs_list li::before {
+  content: "•";
+  color: #6f6f6f;
+  padding: 0rem 0.5rem 0rem 0rem;
+}
+
+ul.examples {
+  padding-left: 25px;
+  margin: 0rem;
+  padding-bottom: 5px;
+}
+ul.examples > li {
+  padding-left: 0px;
+}
+ul.examples > li > .x {
+  font-style: italic;
+}
+
+.oup_icons {
+  display: none;
+}
+
+.sensetop .symbols {
+  display: none;
+}
+
+.senses_multiple {
+  margin-top: 3px;
+  padding-left: 20px;
+}
+.senses_multiple .sense {
+  margin-top: 4px;
+}
+.senses_multiple .sense:hover {
+  background-color: #9292920f;
+}
+
+.un {
+  background-color: #f8e6db;
+  line-height: 1.2;
+  padding: 6px;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.eb,
+.v-g,
+.inflected_form {
+  font-weight: 600;
+  font-style: normal;
+  color: #1a3561;
+}
+
+.ei {
+  font-style: italic;
+}
+
+.labels {
+  color: #6f6f6f;
+  font-style: italic;
+  font-weight: 400;
+}
+
+cl,
+.cl {
+  font-weight: 600;
+  font-style: italic;
+  color: #333333;
+}
+
+.shcut-g {
+  color: #333333;
+}
+.shcut-g .shcut {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 400;
+  border-bottom: 0.0625rem solid #adadad;
+  margin-bottom: 5px;
+  margin-left: -20px;
+}
+.shcut-g h2.shcut {
+  font-size: 14px;
+  font-weight: bold;
+  color: #5f5f5f;
+  line-height: inherit;
+}
+
+.cf {
+  font-weight: 600;
+  font-style: normal;
+  color: #333333;
+  margin-right: 0.25rem;
 }

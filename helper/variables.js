@@ -8,10 +8,12 @@ export const responseTypes = {
 	INIT: "init",
 	STORED: "stored",
 
+	DEFINITION: "definition",
 	ANSWER: "answer",
 	SUGGEST: "suggest",
 	NO_MATCH: "no-match",
 	ERROR: "error",
+	URL_UNDEFINED: "url undefined",
 };
 
 export const storageKey = {
