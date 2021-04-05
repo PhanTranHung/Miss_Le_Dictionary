@@ -91,9 +91,11 @@ function fillGoogleBox(response) {
 }
 
 function fillOxfordBox(response) {
-	if (!!response.error) console.error(response);
-
 	let root;
+
+	const fill = (text) => {
+		oxfordBox.innerHTML = text;
+	};
 
 	const getOuterHTMLByQuery = (query) => {
 		if (!root) {
@@ -101,44 +103,56 @@ function fillOxfordBox(response) {
 			root.innerHTML = response.dict;
 		}
 
-		return root.querySelector(query).outerHTML;
+		const node = root.querySelector(query);
+		if (!node) throw "Get outer HTML not found";
+		return node.outerHTML;
 	};
+
+	if (!!response.error) {
+		fill("An error was occur");
+		console.error(response);
+	}
 
 	switch (response.type) {
 		case responseTypes.INIT:
-			return (oxfordBox.innerHTML = response.dict);
+			return fill(response.dict);
 
 		case responseTypes.SUGGEST:
 			const suggestHTML = getOuterHTMLByQuery(".result-list");
 			const title = `<div class="result-header">“${response.question}” not found</div><div class="didyoumean">Did you mean:</div>`;
-			oxfordBox.innerHTML = title + suggestHTML;
-			break;
+			return fill(title + suggestHTML);
 
 		case responseTypes.NO_MATCH:
 			oxfordBox.innerHTML = "";
 			return toggleVisible(oxfordContainer, "hide");
 
 		case responseTypes.DEFINITION:
-			const pronunciationHTMl = getOuterHTMLByQuery(".webtop");
-			const definitionHTML = getOuterHTMLByQuery(".entry[htag='section'] > .senses_multiple");
+			try {
+				const pronunciationHTMl = getOuterHTMLByQuery(".webtop");
+				const definitionHTML = getOuterHTMLByQuery(".entry[htag='section'] > .senses_multiple, .sense_single");
 
-			const boxContentHTML = pronunciationHTMl + definitionHTML;
+				const boxContentHTML = pronunciationHTMl + definitionHTML;
 
-			saveDataToLocal({ ...response, dict: boxContentHTML });
-			oxfordBox.innerHTML = boxContentHTML;
-			toggleVisible(oxfordContainer, "show");
+				saveDataToLocal({ ...response, dict: boxContentHTML });
+				oxfordBox.innerHTML = boxContentHTML;
+				toggleVisible(oxfordContainer, "show");
+			} catch (error) {
+				fill(error);
+				console.error(error);
+			}
+
 			break;
 
 		case responseTypes.STORED:
-			oxfordBox.innerHTML = response.dict;
-			break;
+			return fill(response.dict);
 
 		case responseTypes.URL_UNDEFINED:
-			oxfordBox.innerHTML = "No definition";
-			break;
+			fill("No definition");
 
 		case responseTypes.ERROR:
-			console.log("An error was occur", response.message);
+			fill("An error was occur");
+			console.error(error);
+			break;
 
 		default:
 			console.log("Unknown response type: ", response.type);

@@ -54,5 +54,13 @@
 			"js": ["bubble/assistant.js"]
 		}
 	],
-	"web_accessible_resources": ["helper/variables.js", "common/imgs/sunny-light.svg"]
+	"web_accessible_resources": [
+		"helper/variables.js",
+		"common/imgs/sunny-light.svg",
+		"common/imgs/translate.png",
+		"common/imgs/audio_bre_initial.svg",
+		"common/imgs/audio_bre_playing.svg",
+		"common/imgs/audio_name_initial.svg",
+		"common/imgs/audio_name_playing.svg"
+	]
 }

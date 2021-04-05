@@ -36,7 +36,7 @@ export function queryOxford(question) {
 	return fetchUrl(url);
 }
 
-export function queryGoogle(question, from = "auto", to = "vi") {
+export function queryGoogle(question, from = "en", to = "vi") {
 	question = question.trim();
 
 	// const ranInRange = (min, max, fixed = 6) =>

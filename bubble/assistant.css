@@ -1,15 +1,295 @@
 .bb-wt-root {
-  max-width: 90px;
-  position: absolute;
-  background-color: white;
-  box-shadow: 0px 0 7px 0px black;
-  border-radius: 4px;
+	z-index: 800;
+	max-width: 90px;
+	position: absolute;
+	background-color: white;
+	box-shadow: 0px 0 7px 0px black;
+	border-radius: 4px;
+	height: 60px;
 }
-
 .bb-wt-bounding {
-  padding: 2px;
+	padding: 2px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
 }
 
 .bb-wt-img {
-  width: 100%;
+	width: 100%;
+}
+
+.bb-trans-root {
+	z-index: 9999;
+	position: absolute;
+	background-color: white;
+	border-radius: 2px;
+	overflow: hidden;
+	width: 24px;
+	border-radius: 7px;
+	cursor: pointer;
+	border: 1px solid #cecece;
+	box-shadow: 0px 0px 2px 0px #888888;
+}
+
+.bb-trans-bounding {
+	line-height: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bb-trans-img {
+	width: 100%;
+}
+
+.bb-res-root {
+	position: absolute;
+	z-index: 9999;
+	background-color: white;
+	min-width: 120px;
+	max-width: 250px;
+	min-height: 70px;
+	box-shadow: rgb(0, 0, 0) 0px 0px 7px 0px;
+	border-radius: 5px;
+}
+
+.bb-res-container {
+	padding: 5px 10px;
+}
+
+.bb-res-card-title {
+	margin-bottom: 5px;
+}
+
+.bb-res-text-bold {
+	font-size: 15px;
+	font-weight: bold;
+	color: #656565;
+}
+
+.bb-res-type {
+	margin-top: 5px;
+	font-size: 13px;
+	text-transform: capitalize;
+	font-weight: 300;
+	color: #404040;
+}
+
+.bb-res-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	margin: 0 -3px;
+	padding: 0;
+}
+
+.bb-res-item {
+	margin: 2px 3px;
+	background: #d2d2d2;
+	border-radius: 5px;
+	padding: 0 6px;
+	color: #020202;
+}
+
+/* .bb-res-item:first-child {
+	margin-left: 0;
+}
+
+.bb-res-item:last-child {
+	margin-right: 0;
+} */
+
+.horizontal-bar {
+	margin: 0 0 5px;
+	background: #b1b1b1;
+}
+
+.webtop {
+	color: #333333;
+	text-size-adjust: 100%;
+	font-weight: 400;
+	font-size: 16px;
+	display: block;
+}
+.webtop .headword {
+	font-size: 1.5rem;
+	font-weight: 600;
+	display: inline-block;
+	margin: 0rem 0rem 0rem 0rem;
+	color: #1a3561;
+}
+.webtop .pos {
+	font-size: 0.9rem;
+	font-weight: 400;
+	font-style: italic;
+	margin: 0rem 0rem 0rem 0.25rem;
+	color: #333333;
+}
+.webtop .symbols {
+	margin: 0.2rem 0rem 0.2rem 0rem;
+}
+.webtop .symbols a {
+	display: inline-block;
+	background-repeat: no-repeat;
+	line-height: 1;
+	width: fit-content;
+	vertical-align: middle;
+	cursor: pointer;
+	margin: 0rem 0.2rem 0rem 0rem;
+	text-decoration: none;
+	color: #004aac;
+}
+.webtop .symbols a .ox5ksym_a1,
+.webtop .symbols a .ox5ksym_a2,
+.webtop .symbols a .ox5ksym_b1,
+.webtop .symbols a .ox5ksym_b2,
+.webtop .symbols a .ox5ksym_c1,
+.webtop .symbols a .ox5ksym_c2 {
+	margin-right: 0px;
+}
+.webtop .symbols a span {
+	display: inline-block;
+	background-repeat: no-repeat;
+	line-height: 1;
+	min-width: 2rem;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.webtop .symbols a span.opal_symbol {
+	display: inline-block;
+	background-color: #526983;
+	width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+	border-radius: 7px;
+	padding: 0px 5px;
+	color: #ffffff;
+	line-height: 1.05rem;
+	font-weight: 600;
+	font-size: 0.7rem;
+	-webkit-transition: background-image 100ms linear;
+	-o-transition: background-image 100ms linear;
+	transition: background-image 100ms linear;
+}
+.webtop .symbols a span.opal_symbol:hover {
+	background-color: #3f5064;
+}
+.webtop .variants {
+	font-style: italic;
+}
+.webtop .inflections {
+	position: relative;
+}
+.webtop .variants,
+.webtop .inflections {
+	color: #6f6f6f;
+	margin: 0;
+	font-size: 0.9rem;
+}
+.webtop .variants .eb,
+.webtop .variants .v-g,
+.webtop .variants .inflected_form,
+.webtop .inflections .eb,
+.webtop .inflections .v-g,
+.webtop .inflections .inflected_form {
+	font-weight: 600;
+	font-style: normal;
+	color: #1a3561;
+}
+.webtop .variants .eb .labels,
+.webtop .variants .v-g .labels,
+.webtop .variants .inflected_form .labels,
+.webtop .inflections .eb .labels,
+.webtop .inflections .v-g .labels,
+.webtop .inflections .inflected_form .labels {
+	color: #6f6f6f;
+	font-style: italic;
+	font-weight: 400;
+}
+.webtop .jumplinks {
+	display: none;
+}
+.webtop > .labels {
+	color: #6f6f6f;
+	font-style: italic;
+	font-weight: 400;
+	font-size: 0.9rem;
+}
+.webtop .un {
+	background-color: #f8e6db;
+	padding: 5px;
+	display: block;
+	border: 1px solid #ffc7b6;
+	margin-bottom: 2px;
+	font-size: 0.8rem;
+}
+.webtop .un .eb {
+	font-weight: 600;
+	font-style: normal;
+	color: #1a3561;
+}
+
+.collapse,
+.symbols {
+	display: none;
+}
+
+.phonetics {
+	font-size: 1rem;
+}
+.phonetics div div {
+	display: inline-block;
+	height: 1.75rem;
+	width: 1.75rem;
+	background-repeat: no-repeat;
+	background-position: left top !important;
+	background-size: 100%;
+	vertical-align: middle;
+	font-size: 14px;
+}
+.phonetics div .pron-uk,
+.phonetics div .pron-uk.icon-audio {
+	background-image: url(chrome-extension://__MSG_@@extension_id__/common/imgs/audio_bre_initial.svg);
+}
+.phonetics div .pron-uk:hover,
+.phonetics div .pron-uk.icon-audio:hover {
+	background-image: url(chrome-extension://__MSG_@@extension_id__/common/imgs/audio_bre_playing.svg);
+	-webkit-transition: background-image 100ms linear;
+	-o-transition: background-image 100ms linear;
+	transition: background-image 100ms linear;
+}
+.phonetics div .pron-us,
+.phonetics div .pron-us.icon-audio {
+	background-image: url(chrome-extension://__MSG_@@extension_id__/common/imgs/audio_name_initial.svg);
+}
+.phonetics div .pron-us:hover,
+.phonetics div .pron-us.icon-audio:hover {
+	background-image: url(chrome-extension://__MSG_@@extension_id__/common/imgs/audio_name_playing.svg);
+	-webkit-transition: background-image 100ms linear;
+	-o-transition: background-image 100ms linear;
+	transition: background-image 100ms linear;
+}
+.phonetics div .verb_form .phon {
+	font-family: "Lucida Sans Unicode", "Lucida Grande";
+	font-size: 0.85rem;
+	font-weight: 400;
+	color: #333333;
+}
+.phonetics div .sep {
+	margin: 0rem;
+}
+
+.grammar,
+.use {
+	color: #6f6f6f;
+	font-weight: 400;
+	font-size: 13px;
+}
+
+.inflections span.phonetics .phons_br,
+.inflections span.phonetics .phons_n_am,
+.inflections span.phonetics .phons_we {
+	display: inline;
 }

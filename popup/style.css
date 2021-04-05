@@ -1,4 +1,8 @@
 @charset "UTF-8";
+#ring-links-box {
+  display: none;
+}
+
 .selection {
   position: relative;
   display: flex;
@@ -634,6 +638,13 @@ hr {
   background-color: #fdf3f0;
   display: block;
 }
+.collapse .is-active .p {
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  margin-left: 8px;
+  margin-right: 8px;
+  text-align: justify;
+}
 .collapse .is-active ul.examples {
   background-color: #fdf3f0;
   display: block !important;
@@ -653,6 +664,11 @@ span[unbox=wordfinder] ul.bullet li.li:after {
 
 .topic-g {
   display: none;
+}
+
+.ndv {
+  color: #00860e;
+  cursor: pointer;
 }
 
 .collocs_list li {
