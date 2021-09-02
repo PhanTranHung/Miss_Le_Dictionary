@@ -433,7 +433,7 @@ table td {
 .box .inner-box .dictlick {
   display: none;
   position: absolute;
-  top: 3px;
+  top: -4%;
   right: 4px;
   background-color: white;
   padding: 0 5px;

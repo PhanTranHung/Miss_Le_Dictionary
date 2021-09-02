@@ -134,13 +134,13 @@ function fillOxfordBox(response) {
 				const boxContentHTML = pronunciationHTMl + definitionHTML;
 
 				saveDataToLocal({ ...response, dict: boxContentHTML });
-				oxfordBox.innerHTML = boxContentHTML;
+
+				fill(boxContentHTML);
 				toggleVisible(oxfordContainer, "show");
 			} catch (error) {
 				fill(error);
 				console.error(error);
 			}
-
 			break;
 
 		case responseTypes.STORED:
