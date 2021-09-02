@@ -93,6 +93,12 @@
 	color: #020202;
 }
 
+.bb-res-error {
+	font-size: 14px;
+	color: #004aac;
+	font-weight: bold;
+}
+
 /* .bb-res-item:first-child {
 	margin-left: 0;
 }

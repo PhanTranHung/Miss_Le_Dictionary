@@ -2,6 +2,8 @@
 	console.log(mess);
 	let selection;
 
+	const bubbles = [];
+
 	let { events, responseTypes } = await import(chrome.runtime.getURL("helper/variables.js"));
 
 	async function onceSendMessage(event, payload) {
@@ -13,6 +15,17 @@
 				rej(e);
 			}
 		});
+	}
+
+	function selfDestroyOnFocusOut(node, cb) {
+		const handleDestroy = (e) => {
+			if (!node.contains(e.target)) {
+				node.remove();
+				document.removeEventListener("mousedown", handleDestroy);
+			}
+		};
+
+		document.addEventListener("mousedown", handleDestroy);
 	}
 
 	const getOuterHTMLByQuery = (html, query) => {
@@ -53,14 +66,16 @@
 
 	function createResultBubble([oxf, gogl]) {
 		const pronouncePart = getOuterHTMLByQuery(oxf.dict, ".webtop");
+		console.log(pronouncePart);
 		const gData = JSON.parse(gogl.tran);
 		debugger;
 		const ps = getBoundingRect();
 		const div = document.createElement("div");
-		div.innerHTML = `<div class="bb-res-root" style="top: ${ps.y}px; left: ${ps.x + ps.width}px">
+
+		div.innerHTML = `<div tabindex="-1" class="bb-res-root" style="top: ${ps.y}px; left: ${ps.x + ps.width}px">
 										<div class="bb-res-container">
 											<div class="bb-res-card">
-												<div class="bb-res-card-title">${pronouncePart}</div>
+												<div class="bb-res-card-title">${pronouncePart?.isError ? `<div class="bb-res-error">Oxford: Not found</div>` : pronouncePart}</div>
 												<hr class="horizontal-bar" />
 												<div class="bb-res-content">
 													<div class="bb-res-text-bold">${gData.sentences[0].trans}</div>
@@ -83,6 +98,7 @@
 											</div>
 										</div>
 									</div>`;
+
 		div.querySelectorAll(".audio_play_button").forEach((btn) => {
 			let { srcMp3, srcOgg } = btn.dataset;
 			btn.addEventListener("click", (evt) =>
@@ -91,6 +107,8 @@
 				}),
 			);
 		});
+
+		attachElementToDOM(div);
 		return div;
 	}
 
@@ -99,19 +117,16 @@
 		const imgPath = chrome.runtime.getURL("common/imgs/sunny-light.svg");
 
 		const div = document.createElement("div");
-		div.innerHTML = `<div class="bb-wt-root" 
-                          style="top: ${ps.y}px; left: ${ps.x + ps.width}px">
-                      <div class="bb-wt-bounding">
-                        <img class="bb-wt-img" src="${imgPath}" alt="finding" />
-                      </div>
-                    </div>`;
+		div.innerHTML = `
+		<div tabindex="-1" class="bb-wt-root" style="top: ${ps.y}px; left: ${ps.x + ps.width}px">
+			<div class="bb-wt-bounding">
+				<img class="bb-wt-img" src="${imgPath}" alt="finding" />
+			</div>
+		</div>
+		`;
 
-		// selfDestructOnFocusOut(div, "mousedown");
+		attachElementToDOM(div);
 		return div;
-	}
-
-	function attachElementToDOM(element) {
-		document.body.appendChild(element);
 	}
 
 	function createTranslateBubble() {
@@ -119,14 +134,69 @@
 		const imgPath = chrome.runtime.getURL("common/imgs/translate.png");
 
 		const div = document.createElement("div");
-		div.innerHTML = `<div class="bb-trans-root" 
-                          style="top: ${ps.y}px; left: ${ps.x + ps.width}px">
-                      <div class="bb-trans-bounding">
-                        <img class="bb-wt-img" src="${imgPath}" alt="finding" />
-                      </div>
-										</div>`;
+		div.innerHTML = `
+		<div tabindex="-1" class="bb-trans-root" style="top: ${ps.y}px; left: ${ps.x + ps.width}px">
+			<div class="bb-trans-bounding">
+				<img class="bb-wt-img" src="${imgPath}" alt="finding" />
+			</div>
+		</div>`;
+
+		attachElementToDOM(div);
 		return div;
 	}
+
+	function attachElementToDOM(element) {
+		document.body.appendChild(element);
+		// element.focus();
+		// element.addEventListener("focusout", (e) => element.remove());
+		selfDestroyOnFocusOut(element);
+	}
+
+	function translate(text) {
+		const oxfTrans = onceSendMessage(events.OXFORD_TRANSLATE, text);
+		const goglTrans = onceSendMessage(events.GOOGLE_TRANSLATE, text);
+
+		return Promise.all([oxfTrans, goglTrans]);
+	}
+
+	function listen() {
+		function selectTextListener(e) {
+			selection = window.getSelection();
+			const textSelected = getSelectionText(selection).trim();
+
+			if (textSelected.length > 0) {
+				console.log(textSelected);
+				const bubbleTranslate = createTranslateBubble(textSelected);
+				bubbleTranslate.addEventListener("click", (e) => {
+					bubbleTranslate.remove();
+					const waitingBubble = createWaitingBubble();
+					translate(textSelected)
+						.then((response) => {
+							// const [oxfResult, goglResult] = response;
+							waitingBubble.remove();
+							createResultBubble(response);
+						})
+						.catch(console.error);
+				});
+			}
+		}
+
+		function clearBubbles(e) {
+			bubbles.map((bubble) => {
+				if (!bubble.contains(e.target)) bubble.remove();
+			});
+		}
+
+		document.body.addEventListener("mouseup", selectTextListener);
+		document.body.addEventListener("mousedown", clearBubbles);
+
+		return function clearListener() {
+			document.body.removeEventListener("mouseup", selectTextListener);
+			document.body.removeEventListener("mousedown", clearBubbles);
+		};
+	}
+
+	listen();
 
 	function startListening() {
 		let bubble = { translate: false, waiting: false, result: false, prevStage: "", curStage: "" };
@@ -139,7 +209,7 @@
 			if (textSelected.length > 0) {
 				console.log(textSelected);
 				document.body.removeEventListener("mouseup", selectTextListener);
-				bubble.translate = createTranslateBubble();
+				bubble.translate = createTranslateBubble(textSelected);
 				bubble.curStage = "translate";
 				attachElementToDOM(bubble.translate);
 			}
@@ -220,5 +290,5 @@
 		document.body.addEventListener("mouseup", selectTextListener);
 	}
 
-	startListening();
-})("Bubble assistant is ready!");
+	// startListening();
+})("Miss Le dictionary: Bubble translate is ready!");
