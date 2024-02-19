@@ -1,4 +1,5 @@
 import { events, responseTypes, storageKey } from "../helper/variables.js";
+import { playSound } from "../helper/audio.js";
 import storage from "../helper/storage.js";
 
 const textarea = document.getElementById("text");
@@ -22,8 +23,8 @@ chrome.commands.onCommand.addListener(function (command) {
 	if (command === "focus-textarea") textarea.focus();
 });
 
-function loadLocalData() {
-	let data = storage.getData(storageKey.POPUP);
+async function loadLocalData() {
+	let data = await storage.getData(storageKey.POPUP);
 	textarea.value = data.question;
 	textarea.select();
 
@@ -32,10 +33,10 @@ function loadLocalData() {
 
 loadLocalData();
 
-function saveDataToLocal(data) {
+async function saveDataToLocal(data) {
 	switch (data.type) {
 		case responseTypes.DEFINITION:
-			return storage.setData(storageKey.POPUP, { ...data, type: responseTypes.STORED });
+			return await storage.setData(storageKey.POPUP, { ...data, type: responseTypes.STORED });
 		default:
 			console.log("Can't save response to local storage: DATA_TYPE ", data.type);
 	}
@@ -174,11 +175,12 @@ function bindingAudioBtn() {
 
 	for (let btn of btn_speakers) {
 		let { srcMp3, srcOgg } = btn.dataset;
-		btn.addEventListener("click", (evt) =>
-			onceSendMessage(events.SPEAK_O, { srcMp3, srcOgg }, (respose) => {
-				// console.log(respose);
-			}),
-		);
+		btn.addEventListener("click", (evt) => {
+			playSound(srcMp3, srcOgg);
+			// onceSendMessage(events.SPEAK_O, { srcMp3, srcOgg }, (respose) => {
+			// 	// console.log(respose);
+			// });
+		});
 	}
 }
 

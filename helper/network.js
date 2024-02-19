@@ -1,32 +1,9 @@
 import { stringify } from "./querystring.js";
 
-function fetchUrl(url, headers = undefined, method = "GET", data = {}, timeout = 5000) {
-	return new Promise((reslove, reject) => {
-		var xhr = new XMLHttpRequest();
-
-		xhr.addEventListener("load", (evt) => {
-			// console.log("The transfer is complete.");
-			reslove({
-				data: xhr.responseText,
-				url: xhr.responseURL,
-			});
-		});
-		xhr.addEventListener("error", (evt) => transferError(evt, "An error occurred while request the answer."));
-		xhr.addEventListener("abort", (evt) => transferError(evt, "The transfer has been canceled by the user."));
-		xhr.addEventListener("timeout", (evt) => transferError(evt, "Time out!!!"));
-
-		function transferError(evt, message) {
-			console.log(message);
-			reject({ message, type: "error", evt });
-		}
-
-		xhr.timeout = timeout;
-		xhr.open(method, url, true);
-
-		if (!!headers) for (let key in headers) xhr.setRequestHeader(key, headers[key]);
-
-		xhr.send(data);
-	});
+async function fetchUrl(url, headers = undefined, method = "GET", data, timeout = 5000) {
+	return fetch(url, { method, headers, body: data ? JSON.stringify(data) : undefined, redirect: "follow" })
+		.then((resp) => resp.text().then((text) => ({ data: text, url: resp.url })))
+		.catch((err) => ({ message: err?.message, type: "error", err }));
 }
 
 export function queryOxford(question) {
