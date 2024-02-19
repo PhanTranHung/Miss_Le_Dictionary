@@ -4,7 +4,7 @@
 
 	const bubbles = [];
 
-	let { events, responseTypes } = await import(chrome.runtime.getURL("helper/variables.js"));
+	const { events, responseTypes } = await import(chrome.runtime.getURL("helper/variables.js"));
 
 	async function onceSendMessage(event, payload) {
 		return new Promise((res, rej) => {
@@ -66,9 +66,8 @@
 
 	function createResultBubble([oxf, gogl]) {
 		const pronouncePart = getOuterHTMLByQuery(oxf.dict, ".webtop");
-		console.log(pronouncePart);
+		// console.log(pronouncePart);
 		const gData = JSON.parse(gogl.tran);
-		debugger;
 		const ps = getBoundingRect();
 		const div = document.createElement("div");
 

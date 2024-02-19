@@ -1,14 +1,22 @@
-export const getData = (key) => {
-	try {
-		return JSON.parse(localStorage.getItem(key));
-	} catch (error) {
-		return localStorage.getItem(key);
-	}
+export const getData = async (key) => {
+	return chrome.storage.local
+		.get(key)
+		.then((items) => items[key] || "")
+		.then((value) => {
+			try {
+				return JSON.parse(value);
+			} catch (error) {
+				return value;
+			}
+		})
+		.catch((err) => {
+			console.error(err);
+		});
 };
 
-export const setData = (key, value) => {
-	if (typeof value === "object") localStorage.setItem(key, JSON.stringify(value));
-	else localStorage.setItem(key, value);
+export const setData = async (key, value) => {
+	if (typeof value === "object") value = JSON.stringify(value);
+	return chrome.storage.local.set({ [key]: value });
 };
 
 export default {

@@ -1,5 +1,5 @@
 import { queryOxford, queryGoogle } from "../helper/network.js";
-import { playSound } from "../helper/audio.js";
+// import { playSound } from "../helper/audio.js";
 import { events, responseTypes } from "../helper/variables.js";
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
@@ -10,24 +10,24 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
 		case events.GOOGLE_TRANSLATE:
 			googleTranslate(req.payload, sendResponse);
 			break;
-		case events.SPEAK_O:
-			processAudio(req.payload, sendResponse);
-			break;
+		// case events.SPEAK_O:
+		// 	processAudio(req.payload, sendResponse);
+		// 	break;
 	}
 	return true;
 });
 
-function processAudio({ srcMp3, srcOgg }, sendResponse) {
-	if (!!srcMp3 && !!srcOgg) {
-		try {
-			playSound(srcMp3, srcOgg);
-			sendResponse({ message: "Success" });
-		} catch (error) {
-			sendResponse({ error: true, message: "Error" });
-			throw error;
-		}
-	}
-}
+// function processAudio({ srcMp3, srcOgg }, sendResponse) {
+// 	if (!!srcMp3 && !!srcOgg) {
+// 		try {
+// 			playSound(srcMp3, srcOgg);
+// 			sendResponse({ message: "Success" });
+// 		} catch (error) {
+// 			sendResponse({ error: true, message: "Error" });
+// 			throw error;
+// 		}
+// 	}
+// }
 
 function handleError(sendResponse, error, message = "Error undefined") {
 	console.error(error);
