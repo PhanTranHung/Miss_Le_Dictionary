@@ -4,18 +4,8 @@
 
 	const bubbles = [];
 
-	let { events, responseTypes } = await import(chrome.runtime.getURL("helper/variables.js"));
-
-	async function onceSendMessage(event, payload) {
-		return new Promise((res, rej) => {
-			try {
-				chrome.runtime.sendMessage({ event, payload }, res);
-			} catch (e) {
-				console.error(e);
-				rej(e);
-			}
-		});
-	}
+	const { events, targets } = await import(chrome.runtime.getURL("helper/variables.js"));
+	const { onceSendMessage } = await import(chrome.runtime.getURL("helper/messaging.js"));
 
 	function selfDestroyOnFocusOut(node, cb) {
 		const handleDestroy = (e) => {
@@ -58,7 +48,6 @@
 
 	function getBoundingRect() {
 		const ps = selection.getRangeAt(0).getBoundingClientRect();
-		console.log(ps);
 		ps.x += window.scrollX;
 		ps.y += window.scrollY;
 		return ps;
@@ -66,9 +55,7 @@
 
 	function createResultBubble([oxf, gogl]) {
 		const pronouncePart = getOuterHTMLByQuery(oxf.dict, ".webtop");
-		console.log(pronouncePart);
 		const gData = JSON.parse(gogl.tran);
-		debugger;
 		const ps = getBoundingRect();
 		const div = document.createElement("div");
 
@@ -102,7 +89,7 @@
 		div.querySelectorAll(".audio_play_button").forEach((btn) => {
 			let { srcMp3, srcOgg } = btn.dataset;
 			btn.addEventListener("click", (evt) =>
-				onceSendMessage(events.SPEAK_O, { srcMp3, srcOgg }, (response) => {
+				onceSendMessage(events.SPEAK_O, { srcMp3, srcOgg }, targets.OFFSCREEN).then((response) => {
 					// console.log(response);
 				}),
 			);
@@ -153,8 +140,8 @@
 	}
 
 	function translate(text) {
-		const oxfTrans = onceSendMessage(events.OXFORD_TRANSLATE, text);
-		const goglTrans = onceSendMessage(events.GOOGLE_TRANSLATE, text);
+		const oxfTrans = onceSendMessage(events.OXFORD_TRANSLATE, text, targets.BG);
+		const goglTrans = onceSendMessage(events.GOOGLE_TRANSLATE, text, targets.BG);
 
 		return Promise.all([oxfTrans, goglTrans]);
 	}
@@ -165,7 +152,6 @@
 			const textSelected = getSelectionText(selection).trim();
 
 			if (textSelected.length > 0) {
-				console.log(textSelected);
 				const bubbleTranslate = createTranslateBubble(textSelected);
 				bubbleTranslate.addEventListener("click", (e) => {
 					bubbleTranslate.remove();
@@ -207,7 +193,6 @@
 			textSelected = getSelectionText(selection).trim();
 
 			if (textSelected.length > 0) {
-				console.log(textSelected);
 				document.body.removeEventListener("mouseup", selectTextListener);
 				bubble.translate = createTranslateBubble(textSelected);
 				bubble.curStage = "translate";
@@ -216,13 +201,12 @@
 		}
 
 		function translate(text, cb) {
-			const oxfTrans = onceSendMessage(events.OXFORD_TRANSLATE, text);
-			const goglTrans = onceSendMessage(events.GOOGLE_TRANSLATE, text);
+			const oxfTrans = onceSendMessage(events.OXFORD_TRANSLATE, text, targets.BG);
+			const goglTrans = onceSendMessage(events.GOOGLE_TRANSLATE, text, targets.BG);
 
 			const promise = Promise.all([oxfTrans, goglTrans])
 				.then((response) => {
 					const [oxfResult, goglResult] = response;
-					console.log(response);
 					if (bubble.curStage === "waiting") {
 						bubble.result = createResultBubble(response);
 						attachElementToDOM(bubble.result);

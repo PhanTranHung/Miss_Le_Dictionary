@@ -1,4 +1,5 @@
-import { events, responseTypes, storageKey } from "../helper/variables.js";
+import { events, responseTypes, storageKey, targets } from "../helper/variables.js";
+import { onceSendMessage } from "../helper/messaging.js";
 import storage from "../helper/storage.js";
 
 const textarea = document.getElementById("text");
@@ -22,8 +23,8 @@ chrome.commands.onCommand.addListener(function (command) {
 	if (command === "focus-textarea") textarea.focus();
 });
 
-function loadLocalData() {
-	let data = storage.getData(storageKey.POPUP);
+async function loadLocalData() {
+	let data = await storage.getData(storageKey.POPUP);
 	textarea.value = data.question;
 	textarea.select();
 
@@ -32,12 +33,12 @@ function loadLocalData() {
 
 loadLocalData();
 
-function saveDataToLocal(data) {
+async function saveDataToLocal(data) {
 	switch (data.type) {
 		case responseTypes.DEFINITION:
-			return storage.setData(storageKey.POPUP, { ...data, type: responseTypes.STORED });
+			return await storage.setData(storageKey.POPUP, { ...data, type: responseTypes.STORED });
 		default:
-			console.log("Can't save response to local storage: DATA_TYPE ", data.type);
+			console.error("Can't save response to local storage: DATA_TYPE ", data.type);
 	}
 }
 
@@ -59,17 +60,6 @@ function main() {
 	}
 }
 
-async function onceSendMessage(event, payload) {
-	return new Promise((res, rej) => {
-		try {
-			chrome.runtime.sendMessage({ event, payload }, res);
-		} catch (e) {
-			console.error(e);
-			rej(e);
-		}
-	});
-}
-
 function fillGoogleBox(response) {
 	if (!!response.error) console.error(response);
 	switch (response.type) {
@@ -83,9 +73,9 @@ function fillGoogleBox(response) {
 			return renderGoogleBoxContent(response.tran);
 
 		case responseTypes.ERROR:
-			console.log("An error was occur", response.message);
+			console.error("An error was occur", response.message);
 		default:
-			console.log("Unknown response type: ", response.type);
+			console.error("Unknown response type: ", response.type);
 			googleBox.innerHTML = "Error undefined";
 	}
 }
@@ -155,7 +145,7 @@ function fillOxfordBox(response) {
 			break;
 
 		default:
-			console.log("Unknown response type: ", response.type);
+			console.error("Unknown response type: ", response.type);
 			oxfordBox.innerHTML = "Error undefined";
 	}
 
@@ -174,11 +164,11 @@ function bindingAudioBtn() {
 
 	for (let btn of btn_speakers) {
 		let { srcMp3, srcOgg } = btn.dataset;
-		btn.addEventListener("click", (evt) =>
-			onceSendMessage(events.SPEAK_O, { srcMp3, srcOgg }, (respose) => {
+		btn.addEventListener("click", (evt) => {
+			onceSendMessage(events.SPEAK_O, { srcMp3, srcOgg }, targets.OFFSCREEN).then((respose) => {
 				// console.log(respose);
-			}),
-		);
+			});
+		});
 	}
 }
 
@@ -211,7 +201,6 @@ function createTab(url, active = true, cb = undefined) {
 }
 
 function renderGoogleBoxContent(data) {
-	console.log(data);
 	const jdata = JSON.parse(data);
 	let content = `<div class="sentences">
                   <div class="trans">

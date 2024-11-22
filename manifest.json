@@ -1,8 +1,9 @@
 {
+	"manifest_version": 3,
 	"name": "Miss Le Dictionaries",
 	"version": "1.0.0",
-	"description": "Find new vocabularies and translate faster",
-	"manifest_version": 2,
+	"description": "Find new vocabularies and get translating faster",
+	"author": "phan.tran.hung.9x@gmail.com",
 	"icons": {
 		"16": "icons/icon_16.png",
 		"32": "icons/icon_16.png",
@@ -11,10 +12,10 @@
 		"128": "icons/icon_16.png"
 	},
 	"background": {
-		"persistent": false,
-		"page": "bg/index.html"
+		"service_worker": "bg/service-worker.js",
+		"type": "module"
 	},
-	"browser_action": {
+	"action": {
 		"default_title": "Dictionary",
 		"default_popup": "popup/index.html",
 		"default_icon": {
@@ -25,24 +26,25 @@
 			"128": "icons/icon_16.png"
 		}
 	},
-	"permissions": ["https://*.oxfordlearnersdictionaries.com/", "https://translate.googleapis.com/", "storage"],
+	"permissions": ["storage", "offscreen"],
+	"host_permissions": ["https://*.oxfordlearnersdictionaries.com/*", "https://translate.googleapis.com/*"],
 	"commands": {
-		"_execute_browser_action": {
+		"_execute_action": {
 			"suggested_key": {
-				"default": "Ctrl + Shift + A",
-				"windows": "Ctrl + Shift + A",
-				"mac": "Ctrl + Shift + A",
-				"chromeos": "Ctrl + Shift + A",
-				"linux": "Ctrl + Shift + A"
+				"default": "Ctrl + Shift + S",
+				"windows": "Ctrl + Shift + S",
+				"mac": "Command + Shift + S",
+				"chromeos": "Ctrl + Shift + S",
+				"linux": "Ctrl + Shift + S"
 			}
 		},
 		"focus-textarea": {
 			"suggested_key": {
-				"default": "Ctrl + Shift + S",
-				"windows": "Ctrl + Shift + S",
-				"mac": "Ctrl + Shift + S",
-				"chromeos": "Ctrl + Shift + S",
-				"linux": "Ctrl + Shift + S"
+				"default": "Alt + Shift + S",
+				"windows": "Alt + Shift + S",
+				"mac": "Alt + Shift + S",
+				"chromeos": "Alt + Shift + S",
+				"linux": "Alt + Shift + S"
 			},
 			"description": "Focus Textbox"
 		}
@@ -55,12 +57,20 @@
 		}
 	],
 	"web_accessible_resources": [
-		"helper/variables.js",
-		"common/imgs/sunny-light.svg",
-		"common/imgs/translate.png",
-		"common/imgs/audio_bre_initial.svg",
-		"common/imgs/audio_bre_playing.svg",
-		"common/imgs/audio_name_initial.svg",
-		"common/imgs/audio_name_playing.svg"
+		{
+			"resources": [
+				"helper/enable-offscreen.js",
+				"helper/messaging.js",
+				"helper/variables.js",
+				"helper/audio.js",
+				"common/imgs/sunny-light.svg",
+				"common/imgs/translate.png",
+				"common/imgs/audio_bre_initial.svg",
+				"common/imgs/audio_bre_playing.svg",
+				"common/imgs/audio_name_initial.svg",
+				"common/imgs/audio_name_playing.svg"
+			],
+			"matches": ["*://*/*"]
+		}
 	]
 }

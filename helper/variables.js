@@ -1,3 +1,10 @@
+export const targets = {
+	BG: "BACKGROUND",
+	OFFSCREEN: "OFFSCREEN",
+	BUBBLE: "BUBBLE",
+	POPUP: "POPUP",
+};
+
 export const events = {
 	OXFORD_TRANSLATE: "ox-translate",
 	GOOGLE_TRANSLATE: "gg-translate",
