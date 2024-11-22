@@ -15,12 +15,31 @@
 				<textarea autofocus class="text" id="text" placeholder="Input here"></textarea>
 			</div>
 			<div class="actions">
+				<div class="utility">
+					<a id="go_to_source" href="https://github.com/PhanTranHung/Miss_Le_Dictionary">
+						<img class="git_logo" src="/common/imgs/git_logo.svg" alt="Github" title="Source code" />
+					</a>
+					<div id="select_speaker" class="select_speaker">
+						<input id="speaker_us" type="radio" name="auto_speak" value="2" />
+						<label for="speaker_us"><img src="/common/imgs/audio_name_initial.svg" alt="Speaker US" title="Auto speak American" /></label>
+						<input id="speaker_uk" type="radio" name="auto_speak" value="1" />
+						<label for="speaker_uk"><img src="/common/imgs/audio_bre_initial.svg" alt="Disabled" title="Auto speak English" /></label>
+						<input id="speaker_disabled" type="radio" name="auto_speak" value="0" />
+						<label for="speaker_disabled"><img src="/common/imgs/audio_lang_disabled.svg" alt="Auto speak is disabled" /></label>
+					</div>
+					<div id="toggle_bubble" class="toggle_bubble" title="Enable/disable bubble translate">
+						<input id="bubble_enabled" type="radio" name="bubble_enable_state" value="1" />
+						<label for="bubble_enabled"><img src="/common/imgs/bubble_translate_enabled.svg" alt="Enabled" /></label>
+						<input id="bubble_disabled" type="radio" name="bubble_enable_state" value="0" />
+						<label for="bubble_disabled"><img src="/common/imgs/bubble_translate_disabled.svg" alt="Disabled" /></label>
+					</div>
+				</div>
 				<input id="btn-submit" class="button-happy" type="submit" value="Search" />
 			</div>
 			<div id="oxfordContainer" class="box">
 				<fieldset class="inner-box">
 					<legend class="field-name">Oxford Dictionaries</legend>
-					<span id="go-to-detail" class="dictlick">Detail</span>
+					<a id="go-to-detail" class="dictlick">Detail</a>
 					<div id="oxfordBox" class="field-content"></div>
 				</fieldset>
 			</div>

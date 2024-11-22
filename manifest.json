@@ -42,9 +42,9 @@
 			"suggested_key": {
 				"default": "Alt + Shift + S",
 				"windows": "Alt + Shift + S",
-				"mac": "Alt + Shift + S",
-				"chromeos": "Alt + Shift + S",
-				"linux": "Alt + Shift + S"
+				"mac": "Alt + Shift + A",
+				"chromeos": "Alt + Shift + A",
+				"linux": "Alt + Shift + A"
 			},
 			"description": "Focus Textbox"
 		}
@@ -62,6 +62,7 @@
 				"helper/enable-offscreen.js",
 				"helper/messaging.js",
 				"helper/variables.js",
+				"helper/storage.js",
 				"helper/audio.js",
 				"common/imgs/sunny-light.svg",
 				"common/imgs/translate.png",
