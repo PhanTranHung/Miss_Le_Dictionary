@@ -1,6 +1,6 @@
 import { queryOxford, queryGoogle } from "../helper/network.js";
-// import { playSound } from "../helper/audio.js";
-import { events, responseTypes } from "../helper/variables.js";
+import { events, responseTypes, targets } from "../helper/variables.js";
+import { enableOffscreen } from "../helper/enable-offscreen.js";
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
 	switch (req.event) {
@@ -10,9 +10,9 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
 		case events.GOOGLE_TRANSLATE:
 			googleTranslate(req.payload, sendResponse);
 			break;
-		// case events.SPEAK_O:
-		// 	processAudio(req.payload, sendResponse);
-		// 	break;
+		case events.SPEAK_O:
+			if (req.target === targets.OFFSCREEN) enableOffscreen();
+			break;
 	}
 	return true;
 });
