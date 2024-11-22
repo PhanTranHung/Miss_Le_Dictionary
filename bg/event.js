@@ -17,18 +17,6 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
 	return true;
 });
 
-// function processAudio({ srcMp3, srcOgg }, sendResponse) {
-// 	if (!!srcMp3 && !!srcOgg) {
-// 		try {
-// 			playSound(srcMp3, srcOgg);
-// 			sendResponse({ message: "Success" });
-// 		} catch (error) {
-// 			sendResponse({ error: true, message: "Error" });
-// 			throw error;
-// 		}
-// 	}
-// }
-
 function handleError(sendResponse, error, message = "Error undefined") {
 	console.error(error);
 	return sendResponse({ type: error.type, message: error.messase || message });
@@ -42,7 +30,7 @@ function oxfordTranslate(question, sendResponse) {
 
 			url = new URL(url);
 			if (url.pathname.startsWith("/definition")) {
-				response.type = responseTypes.DEFINITION;
+				response.type = responseTypes.OXFORD_DEFINITION;
 			} else if (url.pathname.startsWith("/spellcheck")) {
 				try {
 					response.type = responseTypes.SUGGEST;
@@ -66,7 +54,7 @@ function googleTranslate(question, sendResponse) {
 
 			if (!!json && json.startsWith("{")) {
 				response.tran = json;
-				response.type = responseTypes.ANSWER;
+				response.type = responseTypes.GOOGLE_ANSWER;
 			} else {
 				response.type = responseTypes.ERROR;
 				response.message = "Google translate: the data is not JSON or null";

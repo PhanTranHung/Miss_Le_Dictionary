@@ -1,17 +1,26 @@
-import { events, responseTypes, storageKey, targets } from "../helper/variables.js";
+import { events, responseTypes, targets } from "../helper/variables.js";
 import { onceSendMessage } from "../helper/messaging.js";
 import storage from "../helper/storage.js";
 
+const sourceBtn = document.getElementById("go_to_source");
 const textarea = document.getElementById("text");
 const btnsubmit = document.getElementById("btn-submit");
 const oxfordBox = document.getElementById("oxfordBox");
 const googleBox = document.getElementById("googleBox");
 const detail = document.getElementById("go-to-detail");
 const oxfordContainer = document.getElementById("oxfordContainer");
+const speaker_radios = [...document.querySelectorAll("#select_speaker > input")].sort((a, b) => parseInt(a.value) - parseInt(b.value));
+const bubble_enable_status_radios = [...document.querySelectorAll("#toggle_bubble > input")].sort((a, b) => parseInt(a.value) - parseInt(b.value));
+
+let currenSpeakerId = 0;
+let currenBubbleEnableStatusId = 0;
 
 textarea.addEventListener("keypress", (e) => "Enter" === e.code && main());
 btnsubmit.addEventListener("click", main);
 detail.addEventListener("click", () => createTab(detail.href));
+sourceBtn.addEventListener("click", () => createTab(sourceBtn.href));
+speaker_radios.forEach((ele) => bindingSelectSpeakerEvent(ele));
+bubble_enable_status_radios.forEach((ele) => bindingBubbleEnableStatusEvent(ele));
 
 document.body.addEventListener("keypress", (e) => {
 	if (e.shiftKey && e.code === "KeyA" && !e.ctrlKey && !e.altKey && document.activeElement !== textarea) {
@@ -25,19 +34,27 @@ chrome.commands.onCommand.addListener(function (command) {
 });
 
 async function loadLocalData() {
-	let data = await storage.getData(storageKey.POPUP);
-	textarea.value = data.question;
+	const oxfordDefinitionStored = await storage.getData(responseTypes.OXFORD_DEFINITION_STORED);
+	textarea.value = oxfordDefinitionStored.question;
 	textarea.select();
 
-	fillOxfordBox(data);
+	fillOxfordBox(oxfordDefinitionStored);
+
+	const selectedSpeakerStored = await storage.getData(responseTypes.SELECTED_SPEAKER_STORED);
+	loadSelectedSpeaker(selectedSpeakerStored);
+
+	const bubbleEnableStatusStored = await storage.getData(responseTypes.BUBBLE_ENABLE_STATUS_STORED);
+	loadBubbleEnableStatus(bubbleEnableStatusStored);
 }
 
 loadLocalData();
 
 async function saveDataToLocal(data) {
 	switch (data.type) {
-		case responseTypes.DEFINITION:
-			return await storage.setData(storageKey.POPUP, { ...data, type: responseTypes.STORED });
+		case responseTypes.OXFORD_DEFINITION_STORED:
+		case responseTypes.SELECTED_SPEAKER_STORED:
+		case responseTypes.BUBBLE_ENABLE_STATUS_STORED:
+			return await storage.setData(data.type, data);
 		default:
 			console.error("Can't save response to local storage: DATA_TYPE ", data.type);
 	}
@@ -67,10 +84,7 @@ function fillGoogleBox(response) {
 		case responseTypes.INIT:
 			return;
 
-		case responseTypes.STORED:
-			return;
-
-		case responseTypes.ANSWER:
+		case responseTypes.GOOGLE_ANSWER:
 			return renderGoogleBoxContent(response.tran);
 
 		case responseTypes.ERROR:
@@ -105,9 +119,6 @@ function fillOxfordBox(response) {
 	}
 
 	switch (response.type) {
-		case responseTypes.INIT:
-			return fill(response.dict);
-
 		case responseTypes.SUGGEST:
 			const suggestHTML = getOuterHTMLByQuery(".result-list");
 			const title = `<div class="result-header">“${response.question}” not found</div><div class="didyoumean">Did you mean:</div>`;
@@ -117,14 +128,13 @@ function fillOxfordBox(response) {
 			oxfordBox.innerHTML = "";
 			return toggleVisible(oxfordContainer, "hide");
 
-		case responseTypes.DEFINITION:
+		case responseTypes.OXFORD_DEFINITION:
 			try {
 				const pronunciationHTMl = getOuterHTMLByQuery(".webtop");
 				const definitionHTML = getOuterHTMLByQuery(".entry[htag='section'] > .senses_multiple, .sense_single");
 
 				const boxContentHTML = pronunciationHTMl + definitionHTML;
-
-				saveDataToLocal({ ...response, dict: boxContentHTML });
+				saveDataToLocal({ ...response, dict: boxContentHTML, type: responseTypes.OXFORD_DEFINITION_STORED });
 
 				fill(boxContentHTML);
 				toggleVisible(oxfordContainer, "show");
@@ -134,7 +144,7 @@ function fillOxfordBox(response) {
 			}
 			break;
 
-		case responseTypes.STORED:
+		case responseTypes.OXFORD_DEFINITION_STORED:
 			return fill(response.dict);
 
 		case responseTypes.URL_UNDEFINED:
@@ -192,9 +202,15 @@ function bindingClickEvent() {
 		main();
 	});
 
-	const btn = jQuery(".webtop > .phonetics > .phons_n_am > .pron-us")[0];
+	const activeSpeakerBtns = jQuery(".webtop > .phonetics > div > .sound:not(.sound ~ .sound)");
+	// Add the disabled speaker btn
+	console.log(activeSpeakerBtns);
 
-	if (!!btn) btn.click();
+	const allSpeakerBtns = [undefined, ...activeSpeakerBtns];
+	console.log(allSpeakerBtns);
+	const selectedSpeakerBtn = allSpeakerBtns[currenSpeakerId];
+	console.log(allSpeakerBtns);
+	if (!!selectedSpeakerBtn) selectedSpeakerBtn.click();
 }
 
 function createTab(url, active = true, cb = undefined) {
@@ -231,4 +247,70 @@ function toggleVisible(ele, type = "toggle") {
 	if (type === "toggle") ele.classList.toggle("hide");
 	if (type === "hide") ele.classList.add("hide");
 	if (type === "show") ele.classList.remove("hide");
+}
+
+function bindingSelectSpeakerEvent(ele) {
+	ele.labels.forEach((label) => {
+		label.addEventListener("click", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			const currentId = parseInt(ele.value);
+			// Change to the next speaker
+			const speakerId = (currentId + 1) % speaker_radios.length;
+			console.log(speakerId);
+			const response = { speakerId, type: responseTypes.SELECTED_SPEAKER };
+			loadSelectedSpeaker(response);
+		});
+	});
+}
+
+function loadSelectedSpeaker(response) {
+	switch (response.type) {
+		case responseTypes.SELECTED_SPEAKER:
+			speaker_radios[response.speakerId].checked = true;
+			saveDataToLocal({ ...response, type: responseTypes.SELECTED_SPEAKER_STORED });
+			currenSpeakerId = response.speakerId;
+			break;
+
+		case responseTypes.SELECTED_SPEAKER_STORED:
+			speaker_radios[response.speakerId].checked = true;
+			currenSpeakerId = response.speakerId;
+			break;
+
+		default:
+			break;
+	}
+}
+
+function bindingBubbleEnableStatusEvent(ele) {
+	ele.labels.forEach((label) => {
+		label.addEventListener("click", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			const currentId = parseInt(ele.value);
+			// Change to the next bubble
+			const bubbleStatusId = (currentId + 1) % bubble_enable_status_radios.length;
+			console.log(bubbleStatusId);
+			const response = { bubbleStatusId: bubbleStatusId, type: responseTypes.BUBBLE_ENABLE_STATUS };
+			loadBubbleEnableStatus(response);
+		});
+	});
+}
+
+function loadBubbleEnableStatus(response) {
+	switch (response.type) {
+		case responseTypes.BUBBLE_ENABLE_STATUS:
+			bubble_enable_status_radios[response.bubbleStatusId].checked = true;
+			saveDataToLocal({ ...response, type: responseTypes.BUBBLE_ENABLE_STATUS_STORED });
+			currenBubbleEnableStatusId = response.bubbleStatusId;
+			break;
+
+		case responseTypes.BUBBLE_ENABLE_STATUS_STORED:
+			bubble_enable_status_radios[response.bubbleStatusId].checked = true;
+			currenBubbleEnableStatusId = response.bubbleStatusId;
+			break;
+
+		default:
+			break;
+	}
 }

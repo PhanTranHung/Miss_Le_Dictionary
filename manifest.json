@@ -62,6 +62,7 @@
 				"helper/enable-offscreen.js",
 				"helper/messaging.js",
 				"helper/variables.js",
+				"helper/storage.js",
 				"helper/audio.js",
 				"common/imgs/sunny-light.svg",
 				"common/imgs/translate.png",

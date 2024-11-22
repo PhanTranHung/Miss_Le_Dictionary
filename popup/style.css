@@ -392,8 +392,38 @@ table td {
 }
 
 .actions {
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 7px 0 0;
+}
+.actions .utility {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.actions .git_logo {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.actions .select_speaker input,
+.actions .toggle_bubble input {
+  display: none;
+}
+.actions .select_speaker input:checked + label,
+.actions .toggle_bubble input:checked + label {
+  display: flex;
+}
+.actions .select_speaker label,
+.actions .toggle_bubble label {
+  display: none;
+  cursor: pointer;
+}
+.actions .select_speaker img,
+.actions .toggle_bubble img {
+  width: 24px;
+  height: 24px;
 }
 .actions .button-happy {
   color: white;

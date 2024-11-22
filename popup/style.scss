@@ -1,4 +1,4 @@
-#ring-links-box{
+#ring-links-box {
 	display: none;
 }
 
@@ -400,8 +400,42 @@ table td {
 }
 
 .actions {
-	text-align: right;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	margin: 7px 0 0;
+
+	.utility {
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
+	.git_logo {
+		width: 20px;
+		height: 20px;
+		cursor: pointer;
+	}
+
+	.select_speaker,
+	.toggle_bubble {
+		input {
+			display: none;
+			&:checked + label {
+				display: flex;
+			}
+		}
+
+		label {
+			display: none;
+			cursor: pointer;
+		}
+
+		img {
+			width: 24px;
+			height: 24px;
+		}
+	}
 
 	.button-happy {
 		color: white;

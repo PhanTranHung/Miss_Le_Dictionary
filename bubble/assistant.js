@@ -1,10 +1,19 @@
 (async (mess) => {
 	let selection;
+	let bubbleEnableStatus = false;
 
 	const bubbles = [];
 
-	const { events, targets } = await import(chrome.runtime.getURL("helper/variables.js"));
+	const { events, targets, responseTypes } = await import(chrome.runtime.getURL("helper/variables.js"));
 	const { onceSendMessage } = await import(chrome.runtime.getURL("helper/messaging.js"));
+	const { getData, watchData } = await import(chrome.runtime.getURL("helper/storage.js"));
+
+	const bubbleEnableStatusStored = await getData(responseTypes.BUBBLE_ENABLE_STATUS_STORED);
+	bubbleEnableStatus = !!bubbleEnableStatusStored.bubbleStatusId;
+
+	watchData(responseTypes.BUBBLE_ENABLE_STATUS_STORED, (newValue, oldValue) => {
+		bubbleEnableStatus = !!newValue.bubbleStatusId;
+	});
 
 	function selfDestroyOnFocusOut(node, cb) {
 		const handleDestroy = (e) => {
@@ -147,6 +156,8 @@
 
 	function listen() {
 		function selectTextListener(e) {
+			if (!bubbleEnableStatus) return;
+
 			selection = window.getSelection();
 			const textSelected = getSelectionText(selection).trim();
 
