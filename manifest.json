@@ -3,7 +3,7 @@
 	"name": "Miss Le Dictionaries",
 	"version": "1.0.0",
 	"description": "Find new vocabularies and get translating faster",
-	"author": "zzsatthupk@gmail.com",
+	"author": "phan.tran.hung.9x@gmail.com",
 	"icons": {
 		"16": "icons/icon_16.png",
 		"32": "icons/icon_16.png",
@@ -26,7 +26,7 @@
 			"128": "icons/icon_16.png"
 		}
 	},
-	"permissions": ["storage"],
+	"permissions": ["storage", "offscreen"],
 	"host_permissions": ["https://*.oxfordlearnersdictionaries.com/*", "https://translate.googleapis.com/*"],
 	"commands": {
 		"_execute_action": {
@@ -59,6 +59,8 @@
 	"web_accessible_resources": [
 		{
 			"resources": [
+				"helper/enable-offscreen.js",
+				"helper/messaging.js",
 				"helper/variables.js",
 				"helper/audio.js",
 				"common/imgs/sunny-light.svg",

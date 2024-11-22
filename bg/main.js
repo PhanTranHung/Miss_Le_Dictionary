@@ -1,5 +1,6 @@
 import { responseTypes, storageKey } from "../helper/variables.js";
 import storage from "../helper/storage.js";
+import { enableOffscreen } from "../helper/enable-offscreen.js";
 
 chrome.runtime.onInstalled.addListener(function (details) {
 	console.log("Extension is installed", details);
@@ -13,3 +14,5 @@ chrome.runtime.onInstalled.addListener(function (details) {
 		type: responseTypes.INIT,
 	});
 });
+
+enableOffscreen();
