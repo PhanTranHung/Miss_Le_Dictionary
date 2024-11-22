@@ -11,6 +11,7 @@ const oxfordContainer = document.getElementById("oxfordContainer");
 
 textarea.addEventListener("keypress", (e) => "Enter" === e.code && main());
 btnsubmit.addEventListener("click", main);
+detail.addEventListener("click", () => createTab(detail.href));
 
 document.body.addEventListener("keypress", (e) => {
 	if (e.shiftKey && e.code === "KeyA" && !e.ctrlKey && !e.altKey && document.activeElement !== textarea) {
@@ -182,7 +183,7 @@ function bindingCollapse() {
 
 function bindingDetailButton(response) {
 	detail.classList.add("active");
-	detail.addEventListener("click", (evt) => createTab(response.url));
+	detail.href = response.url;
 }
 
 function bindingClickEvent() {

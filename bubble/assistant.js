@@ -1,5 +1,4 @@
 (async (mess) => {
-	console.log(mess);
 	let selection;
 
 	const bubbles = [];
